@@ -1,5 +1,5 @@
-STUID = 211220000
-STUNAME = 张三
+STUID = 2112233094
+STUNAME = Renata Luo
 
 # DO NOT modify the following code!!!
 
