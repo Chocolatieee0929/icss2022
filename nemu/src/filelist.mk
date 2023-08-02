@@ -12,10 +12,12 @@
 #
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
-
+# 参与编译的源文件的候选集合
 SRCS-y += src/nemu-main.c
+# 参与编译的目录集合, 该目录下的所有文件都会被加入到SRCS-y中
 DIRS-y += src/cpu src/monitor src/utils
 DIRS-$(CONFIG_MODE_SYSTEM) += src/memory
+# 不参与编译的目录集合, 该目录下的所有文件都会被加入到SRCS-BLACKLIST-y中
 DIRS-BLACKLIST-$(CONFIG_TARGET_AM) += src/monitor/sdb
 
 SHARE = $(if $(CONFIG_TARGET_SHARE),1,0)
