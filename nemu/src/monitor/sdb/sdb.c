@@ -56,12 +56,13 @@ static int cmd_si(char *args) {
   if(arg == NULL){
 	step = 1;
   }
-  else if(!isdigit(arg)){
-	printf("Unknown command '%s'\n", arg);
-  } 
   else{
-	step = atoi(arg);
-  }
+	sscanf(arg,"%ld",&step);
+	if(step<=0){
+	   printf("Unknown arguments '%s'\n", arg);
+	   return 0;
+	}
+  } 
   cpu_exec(step);
   return 0;
 }
