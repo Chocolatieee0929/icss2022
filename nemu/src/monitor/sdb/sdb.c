@@ -67,6 +67,16 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_info(char *args){
+   // 提取命令
+  char *arg = strtok(NULL," ");
+  if(strcmp(arg, "r")==0){
+      isa_reg_display();
+  }
+  
+  return 0; 
+}
+
 static int cmd_q(char *args) {
   return -1;
 }
@@ -83,8 +93,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-  {"si","step-让程序单步执行N条指令后暂停执行,``当 N没有给出时, 缺省为 1",cmd_si},
- // {"info SUBCMD","打印寄存器状态``打印监视点信息",cmd_info},
+  {"si","step-让程序单步执行N条指令后暂停执行,当N没有给出时,默认为1, eg: si [N]",cmd_si},
+  {"info","打印寄存器状态/监视点信息.eg: info SUBCMD",cmd_info},
  // {"x N EXPR","求出表达式EXPR的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 N个4字节,x 10 $esp",cmd_x},
  // {"p EXPR","求出表达式EXPR的值 p $eax + 1",cmd_p},
  // {"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
