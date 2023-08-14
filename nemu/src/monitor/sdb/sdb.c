@@ -85,23 +85,20 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_x(char *args){
-  char *arg =  strtok(NULL," ");
+  char *N =  strtok(NULL," ");
+  char *EXPR = strtok(NULL," ");
   size_t len = 0;
   vaddr_t addr;
   // [N]
-  if(arg == NULL){
+  if(N == NULL|| EXPR == NULL){
   	printf("Invaild parament.");
 	return 0;
   }
-  sscanf(arg,"%ld",&len);
-  arg = strtok(NULL," ");
-  // EXPR
-  if(arg == NULL){
-  	printf("Invaild parament.");
-	return 0;
+  sscanf(N,"%ld",&len);
+  sscanf(EXPR,"%x",&addr);
+  for(int i = 0; i<len; i++){
+  	printf("%x",vaddr_read(addr,4));
   }
-  sscanf(arg,"%x",&addr);
-  vaddr_read(addr,len);
   return 0;
 }
 
