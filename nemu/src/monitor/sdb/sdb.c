@@ -97,7 +97,7 @@ static int cmd_x(char *args){
   sscanf(N,"%ld",&len);
   sscanf(EXPR,"%x",&addr);
   for(int i = 0; i<len; i++){
-	addr += i;
+	addr += i*4;
   	printf("%x:%x\n",addr,vaddr_read(addr,4));
   }
   return 0;
