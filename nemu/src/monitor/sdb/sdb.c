@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -83,6 +84,27 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_x(char *args){
+  char *arg =  strtok(NULL," ");
+  size_t len = 0;
+  vaddr_t addr;
+  // [N]
+  if(arg == NULL){
+  	printf("Invaild parament.");
+	return 0;
+  }
+  sscanf(arg,"%ld",&len);
+  arg = strtok(NULL," ");
+  // EXPR
+  if(arg == NULL){
+  	printf("Invaild parament.");
+	return 0;
+  }
+  sscanf(arg,"%x",&addr);
+  vaddr_read(addr,len);
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -95,7 +117,7 @@ static struct {
   /* TODO: Add more commands */
   {"si","step-让程序单步执行N条指令后暂停执行,当N没有给出时,默认为1, eg: si [N]",cmd_si},
   {"info","打印寄存器状态/监视点信息.eg: info SUBCMD",cmd_info},
- // {"x N EXPR","求出表达式EXPR的值, 将结果作为起始内存``地址, 以十六进制形式输出连续的 N个4字节,x 10 $esp",cmd_x},
+  {"x","求出表达式EXPR的值, 将结果作为起始内存地址, 以十六进制形式输出连续的N个4字节, eg:x [N] EXPR",cmd_x},
  // {"p EXPR","求出表达式EXPR的值 p $eax + 1",cmd_p},
  // {"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
  // {"d [N]","删除序号为N的监视点 d 2",cmd_del}, 
