@@ -73,6 +73,7 @@ typedef struct token {
   char str[32];
 } Token;
 
+// token array
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
@@ -101,14 +102,31 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+	  case TK_NOTYPE:
+		  break;
+	  case TK_NUM:
+		  tokens[nr_token].type=TK_NUM;
+		  for(int i=0;i<substr_len&&32;i++){
+			tokens[nr_token].str[i] = substr_start[i];
+		  }
+		  break;
+	  case TK_EQ:
+		  break;
+          default:
+		 tokens[nr_token].type = rules[i].token_type; 
+		 break;
         }
-
+	nr_token++;
         break;
       }
     }
 
     if (i == NR_REGEX) {
+     /*识别失败, 框架代码会输出当前token的位置
+      * (当表达式过长导致在终端里输出需要换行时, ^可能无法指示正确的位置, 
+      * 此时建议通过输出的position值来定位token的位置
+      */
+      // printf("Position: %d\n", position);
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
