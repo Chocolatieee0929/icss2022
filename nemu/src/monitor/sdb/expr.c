@@ -42,7 +42,8 @@ static struct rule {
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
-  {"\\(|\\)",'('},	// bracket
+  {"\\(",'('},		// bracket'('
+  {"\\)",')'},		// bracket')'
   {"[-\\d]+$", TK_NUM},	// number
 };
 
