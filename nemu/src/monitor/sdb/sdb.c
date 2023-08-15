@@ -104,7 +104,7 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-  char *EXPR = strtok(NULL," ");
+  char *EXPR = strtok(NULL,"");
   if(EXPR == NULL){
   	printf("Invaild parament.");
 	return 0;
