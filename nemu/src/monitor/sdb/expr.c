@@ -150,6 +150,12 @@ int mainToken(int p,int q){
       else if(tokens[i].type == '*'||tokens[i].type =='/'){
 	mainindex=i;
       }
+      if(tokens[i].type == '('){
+      	int tail = q;
+	while(tail > i && tokens[tail].type!= ')') tail++;
+        if(tail==i) return -1;
+	i = tail;       
+      }
     }
     return mainindex;
 }
