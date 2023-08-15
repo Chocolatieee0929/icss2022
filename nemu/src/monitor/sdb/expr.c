@@ -109,15 +109,14 @@ static bool make_token(char *e) {
 		  for(int i=0;i<substr_len&&32;i++){
 			tokens[nr_token].str[i] = substr_start[i];
 		  }
+		  nr_token++;
 		  break;
 	  case TK_EQ:
 		  break;
           default:
-		 tokens[nr_token].type = rules[i].token_type; 
+		 tokens[nr_token++].type = rules[i].token_type; 
 		 break;
         }
-	nr_token++;
-        break;
       }
     }
 
