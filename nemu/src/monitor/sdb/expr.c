@@ -153,10 +153,10 @@ int mainToken(int p,int q){
 
 // evaluate the val of expr
 word_t eval(int begin,int end, bool *success){
+  //debug
+  printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
-      //debug
-      printf("begin:%d, end:%d\n",begin,end);
       printf("Error length.\n");
       *success = false;
       return 0;
