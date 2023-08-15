@@ -155,6 +155,8 @@ int mainToken(int p,int q){
 word_t eval(int begin,int end, bool *success){
   if(begin > end || *success == false){
   /* Bad expression */
+      //debug
+      printf("begin:%d, end:%d\n",begin,end);
       printf("Error length.\n");
       *success = false;
       return 0;
@@ -173,6 +175,8 @@ word_t eval(int begin,int end, bool *success){
   }
   else{
 	int op = mainToken(begin,end);
+	//debug
+	printf("op:%d\n",op);
 	int val1 = eval(begin, op - 1,success);
 	int val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
