@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_NUM =-1,
+  TK_DEX,
 };
 
 static struct rule {
@@ -44,7 +44,7 @@ static struct rule {
   {"\\/", '/'},		// chuyi
   {"\\(",'('},		// bracket'('
   {"\\)",')'},		// bracket')'
-  {"[0-9]+", TK_NUM},	// number
+  {"[0-9]+", TK_DEX},	// number
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -104,8 +104,8 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
 	  case TK_NOTYPE:
 		  break;
-	  case TK_NUM:
-		  tokens[nr_token].type=TK_NUM;
+	  case TK_DEX:
+		  tokens[nr_token].type=TK_DEX;
 		  for(int i=0;i<substr_len&&32;i++){
 			tokens[nr_token].str[i] = substr_start[i];
 		  }
