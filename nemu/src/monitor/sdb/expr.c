@@ -153,7 +153,7 @@ int mainToken(int p,int q){
       }
       if(tokens[i].type == '('){
       	int tail = q;
-	while(tail > i && tokens[tail].type!= ')') tail++;
+	while(tail > i && tokens[tail].type!= ')') tail--;
         if(tail==i) return -1;
 	i = tail;       
       }
