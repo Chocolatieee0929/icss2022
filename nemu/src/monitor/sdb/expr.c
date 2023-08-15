@@ -44,7 +44,7 @@ static struct rule {
   {"\\/", '/'},		// chuyi
   {"\\(",'('},		// bracket'('
   {"\\)",')'},		// bracket')'
-  {"[-\\d]+$", TK_NUM},	// number
+  {"[\\d]+", TK_NUM},	// number
 };
 
 #define NR_REGEX ARRLEN(rules)
