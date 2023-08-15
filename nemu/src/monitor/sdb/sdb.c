@@ -115,7 +115,7 @@ static int cmd_p(char *args){
   if(!result){
   	printf("failed\n");
   }
-  printf("result:%d",re);
+  printf("result:%d\n",re);
   return 0;
 }
 
