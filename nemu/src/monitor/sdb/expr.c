@@ -117,6 +117,7 @@ static bool make_token(char *e) {
 		 tokens[nr_token++].type = rules[i].token_type; 
 		 break;
         }
+      break;
       }
     }
 
