@@ -147,6 +147,9 @@ int mainToken(int p,int q){
       if(tokens[i].type == '+'||tokens[i].type =='-'){
 	mainindex = i;
       }
+      else if(tokens[i].type == '*'||tokens[i].type =='/'){
+	mainindex=i;
+      }
     }
     return mainindex;
 }
