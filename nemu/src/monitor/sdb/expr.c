@@ -197,7 +197,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   *success = true;
-  word_t result = eval(0,nr_token,success);
+  word_t result = eval(0,nr_token-1,success);
   if(*success != true)  result = 0;
   return result;
 }
