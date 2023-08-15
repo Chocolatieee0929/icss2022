@@ -131,10 +131,59 @@ static bool make_token(char *e) {
       return false;
     }
   }
-
   return true;
 }
 
+bool check_parentheses(int p,int q){
+	if(p>q && tokens[p].type == '(' && tokens[q].type == ')')
+		return true;
+	return false;
+}
+
+// 寻找主运算符
+int mainToken(int p,int q){
+    int mainindex = p;
+    for(int i = p; i<q;i++){
+      if(tokens[i].type == '+'||tokens[i].type =='-'){
+	mainindex = i;
+      }
+    }
+    return mainindex;
+}
+
+// evaluate the val of expr
+word_t eval(int begin,int end, bool *success){
+  if(begin > end || *success == false){
+  /* Bad expression */
+      printf("Error length.\n");
+      *success = false;
+      return 0;
+  }
+  else if(begin == end){
+      if(tokens[begin].type!=TK_DEX) {
+	  printf("Error exp, not number.\n");
+	  *success = false;
+	  return 0;
+      }
+      word_t val = atoi(tokens[begin].str);
+      return val;
+  }
+  else if (check_parentheses(begin, end) == true){
+  	return eval(begin+1,end-1,success);
+  }
+  else{
+	int op = mainToken(begin,end);
+	int val1 = eval(begin, op - 1,success);
+	int val2 = eval(op + 1, end,success);
+	switch (tokens[op].type) {
+	      case '+': return val1 + val2;
+	      case '-': return val1 - val2;		
+	      case '*': return val1 * val2;
+	      case '/': return val1 / val2;
+	      default: assert(0);
+	}
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -143,8 +192,8 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
-  *success=true;
-
-  return 0;
+  *success = true;
+  word_t result = eval(0,nr_token,success);
+  if(*success != true)  result = 0;
+  return result;
 }
