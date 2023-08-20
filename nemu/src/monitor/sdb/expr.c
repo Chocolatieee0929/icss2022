@@ -116,7 +116,7 @@ static bool make_token(char *e) {
           default:
 		 tokens[nr_token++].type = rules[i].token_type; 
 		 break;
-        }
+	}
       break;
       }
     }
@@ -134,6 +134,7 @@ static bool make_token(char *e) {
   return true;
 }
 
+// Judge legal braket 
 bool check_parentheses(int p,int q){
 	printf("p: %d,q: %d\n",p,q);
 	if(tokens[p].type == '(' && tokens[q].type == ')')
