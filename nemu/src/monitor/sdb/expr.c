@@ -186,9 +186,10 @@ word_t eval(int begin,int end, bool *success){
   else if (check_parentheses(begin, end) == true){
   	return eval(begin+1,end-1,success);
   }
-  else if((tokens[begin].type == '-' && begin == 0)
-		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
-       uint32_t val1 = eval(begin+1, end,success);
+  // else if((tokens[begin].type == '-' && begin == 0)
+  //		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
+  else if(tokens[begin].type == '-' && tokens[end].type == TK_DEX && begin+1==end){
+      uint32_t val1 = eval(begin+1, end,success);
        val1 =val1*(-1);
       return val1;
   }
