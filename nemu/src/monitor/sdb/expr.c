@@ -189,7 +189,7 @@ word_t eval(int begin,int end, bool *success){
   else if((tokens[begin].type == '-' && begin == 0)
 		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
        word_t val = atoi(tokens[begin].str);
-       val *= -1;
+       val =val*(-1);
       return val;
   }
   else{
