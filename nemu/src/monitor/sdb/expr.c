@@ -148,7 +148,7 @@ int mainToken(int p,int q){
     int mainindex = p;
     int flag = 1;
     for(int i = p; i<q;i++){
-      if(tokens[i].type == '+'||(tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/')){
+      if(tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/')){
 	mainindex = i;
 	flag = 0;
       }
