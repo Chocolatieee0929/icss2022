@@ -146,12 +146,15 @@ bool check_parentheses(int p,int q){
 // 寻找主运算符
 int mainToken(int p,int q){
     int mainindex = p;
+    int flag = 0;
     for(int i = p; i<q;i++){
       if(tokens[i].type == '+'||(tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/')){
 	mainindex = i;
+	flag = 0;
       }
-      else if(tokens[i].type == '*'||tokens[i].type =='/'){
+      else if(flag&&(tokens[i].type == '*'||tokens[i].type =='/')){
 	mainindex=i;
+	flag = 1;
       }
       if(tokens[i].type == '('){
       	int tail = q;
