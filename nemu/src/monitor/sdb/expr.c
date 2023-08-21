@@ -186,19 +186,28 @@ word_t eval(int begin,int end, bool *success){
   else if (check_parentheses(begin, end) == true){
   	return eval(begin+1,end-1,success);
   }
+  else if((tokens[begin].type == '-' && begin == 0)
+		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
+       word_t val = atoi(tokens[begin].str);
+       val *= -1;
+      return val;
+  }
   else{
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d\n",op);
-	word_t val1 = eval(begin, op - 1,success);
-	word_t val2 = eval(op + 1, end,success);
+	uint32_t val1 = eval(begin, op - 1,success);
+	uint32_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': return val1 + val2;
 	      case '-': return val1 - val2;		
 	      case '*': return val1 * val2;
 	      case '/': 
-			 if(val2==0) printf("Invalid Expression.\n");
-			 assert(val2!=0);
+			 if(val2==0){
+				 printf("Invalid Expression.\n");
+			 	 *success = false;
+				 return 0;
+			 }
 			return val1 / val2;
 	      default: assert(0);
 	}
