@@ -147,7 +147,7 @@ bool check_parentheses(int p,int q){
 int mainToken(int p,int q){
     int mainindex = p;
     for(int i = p; i<q;i++){
-      if(tokens[i].type == '+'||(tokens[i].type =='-'&& tokens[i-1].type!='-')){
+      if(tokens[i].type == '+'||(tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/')){
 	mainindex = i;
       }
       else if(tokens[i].type == '*'||tokens[i].type =='/'){
