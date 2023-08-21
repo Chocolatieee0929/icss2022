@@ -188,9 +188,9 @@ word_t eval(int begin,int end, bool *success){
   }
   else if((tokens[begin].type == '-' && begin == 0)
 		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
-       word_t val = atoi(tokens[begin].str);
-       val =val*(-1);
-      return val;
+       uint32_t val1 = eval(begin+1, end,success);
+       val1 =val1*(-1);
+      return val1;
   }
   else{
 	int op = mainToken(begin,end);
