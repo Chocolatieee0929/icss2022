@@ -26,6 +26,9 @@ static void gen(char op) {
 static void gen_num() {
    // Avoid the condition that result integer too long
    unsigned num = choose(100);
+   if(buf[count-1]=='\\'){
+     num++;
+   }
    sprintf(buf+count,"%u",num);
    while(buf[count]!=0)  count++;
    return;
@@ -58,6 +61,7 @@ static void gen_rand_expr() {
             gen_rand_expr(); gen_rand_op(); gen_rand_expr();
             break;
     }
+
 }
 
 int main(int argc, char *argv[]) {

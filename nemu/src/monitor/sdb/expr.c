@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX,
+  TK_DEX,TK_F
 };
 
 static struct rule {
@@ -39,6 +39,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
+  {"[^0-9]*\\-[0-9]+",TK_F},	// 
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
@@ -111,6 +112,13 @@ static bool make_token(char *e) {
 		  }
 		  nr_token++;
 		  break;
+	  case TK_F:
+		  tokens[nr_token].type=TK_F;
+		  for(int i=0;i<substr_len&&32;i++){
+			tokens[nr_token].str[i] = substr_start[i];
+		  }
+		  nr_token++;
+		  break;
 	  case TK_EQ:
 		  break;
           default:
@@ -168,17 +176,18 @@ word_t eval(int begin,int end, bool *success){
   printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
-      printf("Error length.\n");
+      printf("Invalid expression.\n");
       *success = false;
       return 0;
   }
   else if(begin == end){
-      if(tokens[begin].type!=TK_DEX) {
+      if(tokens[begin].type!=TK_DEX && tokens[begin].type!= TK_F) {
 	  printf("Error exp, not number.\n");
 	  *success = false;
 	  return 0;
       }
       word_t val = atoi(tokens[begin].str);
+      if (tokens[begin].type==TK_F) val*=(-1);
       return val;
   }
   else if (check_parentheses(begin, end) == true){
@@ -188,15 +197,15 @@ word_t eval(int begin,int end, bool *success){
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d\n",op);
-	int val1 = eval(begin, op - 1,success);
-	int val2 = eval(op + 1, end,success);
+	word_t val1 = eval(begin, op - 1,success);
+	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': return val1 + val2;
 	      case '-': return val1 - val2;		
 	      case '*': return val1 * val2;
 	      case '/': 
-			if(val2==0) printf("Invalid Expression.\n");
-			assert(val2!=0);
+			 if(val2==0) printf("Invalid Expression.\n");
+			 assert(val2!=0);
 			return val1 / val2;
 	      default: assert(0);
 	}
