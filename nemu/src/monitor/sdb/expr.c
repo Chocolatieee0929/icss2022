@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX,TK_F
+  TK_DEX
 };
 
 static struct rule {
@@ -39,7 +39,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
-  {"[^0-9]*\\-[0-9]+",TK_F},	// 
+
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
@@ -112,13 +112,6 @@ static bool make_token(char *e) {
 		  }
 		  nr_token++;
 		  break;
-	  case TK_F:
-		  tokens[nr_token].type=TK_F;
-		  for(int i=0;i<substr_len&&32;i++){
-			tokens[nr_token].str[i] = substr_start[i];
-		  }
-		  nr_token++;
-		  break;
 	  case TK_EQ:
 		  break;
           default:
@@ -181,13 +174,13 @@ word_t eval(int begin,int end, bool *success){
       return 0;
   }
   else if(begin == end){
-      if(tokens[begin].type!=TK_DEX && tokens[begin].type!= TK_F) {
+      if(tokens[begin].type!=TK_DEX) {
 	  printf("Error exp, not number.\n");
 	  *success = false;
 	  return 0;
       }
       word_t val = atoi(tokens[begin].str);
-      if (tokens[begin].type==TK_F) val*=(-1);
+
       return val;
   }
   else if (check_parentheses(begin, end) == true){
