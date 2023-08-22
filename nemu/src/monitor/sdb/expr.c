@@ -242,7 +242,7 @@ unsigned eval(int begin,int end, bool *success){
 	      default: assert(0);
 	}
   }
-  printf("val:%u\n",val);
+  printf("val:%d\n",val);
   return val;
 }
 
