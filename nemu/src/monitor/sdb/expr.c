@@ -192,7 +192,7 @@ int mainToken(int p,int q){
 }
 
 // evaluate the val of expr
-unsigned eval(int begin,int end, bool *success){
+word_t eval(int begin,int end, bool *success){
   //debug
   word_t val = 0;
   printf("begin:%d, end:%d\n",begin,end);
