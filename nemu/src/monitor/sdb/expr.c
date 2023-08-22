@@ -110,6 +110,7 @@ static bool make_token(char *e) {
 		  for(int i=0;i<substr_len&&32;i++){
 			tokens[nr_token].str[i] = substr_start[i];
 		  }
+		  tokens[nr_token].str[substr_len]='\0';
 		  nr_token++;
 		  break;
 	  case TK_EQ:
