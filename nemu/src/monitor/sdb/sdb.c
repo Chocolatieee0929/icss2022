@@ -235,13 +235,16 @@ void test_expr(){
    }
    size_t sz=0;
    char *line = NULL;
-   // ssize_t read;
+   ssize_t read;
    word_t res;
    word_t correct_res;
 
    while(getline(&line,&sz,f)>0){
 	bool success = true;
+	read = getline(&line,&sz,f);
+	line[read-1]='\0';
        char nline[strlen(line)];
+
        strcpy(nline,line);
        char* num = strtok(nline," ");
        correct_res = atoi(num);
@@ -283,7 +286,7 @@ void init_sdb() {
   init_regex();
 
   /* test regex*/
-  //test_expr();
+  test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
