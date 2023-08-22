@@ -240,6 +240,7 @@ void test_expr(){
    word_t correct_res;
 
    while(getline(&line,&sz,f)>0){
+	printf("第%lu个测试案例：%s\n",sz,line);
 	bool success = true;
 	read = getline(&line,&sz,f);
 	line[read-1]='\0';
