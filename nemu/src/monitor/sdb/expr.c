@@ -257,6 +257,7 @@ word_t eval(int begin,int end, bool *success){
 			else flag = 1;
 		     }
 		     val = val1 / val2;
+		     printf("=%d*-1",val);
 		     if(flag) val *= -1;
 	     	     printf("=%d\n",val);
      		     break;
