@@ -119,6 +119,24 @@ static int cmd_p(char *args){
   return 0;
 }
 
+static int cmd_ptest(char *args){
+   FILE *f = fopen(args,"r");
+   size_t sz=0;
+   char *line = NULL;
+   while(getline(&line,&sz,f)>0){
+   	word_t correct = atoi(strtok(line,""));
+   	char *EXPR = strtok(NULL,"");
+  	 bool result = true ;
+   	word_t re = expr(EXPR,&result);
+      	if(!result || re != correct){
+		printf("failed\n");
+   	}
+   	printf("result:%d\n",re);
+   }
+   return 0;
+
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -133,6 +151,7 @@ static struct {
   {"info","打印寄存器状态/监视点信息.eg: info SUBCMD",cmd_info},
   {"x","求出表达式EXPR的值, 将结果作为起始内存地址, 以十六进制形式输出连续的N个4字节, eg:x [N] EXPR",cmd_x},
   {"p","求出表达式EXPR的值 p $eax + 1",cmd_p},
+  {"p_test","cmd_p test ,file in ./input",cmd_ptest},
  // {"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
  // {"d [N]","删除序号为N的监视点 d 2",cmd_del}, 
 };
