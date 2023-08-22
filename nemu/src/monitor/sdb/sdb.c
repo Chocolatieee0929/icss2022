@@ -120,9 +120,9 @@ static int cmd_p(char *args){
 }
 
 static int cmd_ptest(char *args){
-   FILE *f = fopen(args,"r");
+   FILE *f = fopen("/home/ics2022/nemu/tools/gen-expr/input","r");
    if(f==NULL){
-	printf("The file dont exist.\n");
+	perror("The file dont exist.\n");
 	return 0;
    }
    size_t sz=0;
@@ -230,6 +230,9 @@ void sdb_mainloop() {
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
+
+  /* test regex*/
+
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
