@@ -209,7 +209,7 @@ word_t eval(int begin,int end, bool *success){
   else{
 	int op = mainToken(begin,end);
 	//debug
-	printf("op:%d\n",op);
+	printf("op:%d,%c\n",op,tokens[op].type);
 	uint32_t val1 = eval(begin, op - 1,success);
 	uint32_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
