@@ -192,7 +192,7 @@ int mainToken(int p,int q){
 }
 
 // evaluate the val of expr
-word_t eval(int begin,int end, bool *success){
+uint32_t eval(int begin,int end, bool *success){
   //debug
   word_t val = 0;
   printf("begin:%d, end:%d\n",begin,end);
@@ -226,8 +226,8 @@ word_t eval(int begin,int end, bool *success){
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d,%c\n",op,tokens[op].type);
-	word_t val1 = eval(begin, op - 1,success);
-	word_t val2 = eval(op + 1, end,success);
+	uint32_t val1 = eval(begin, op - 1,success);
+	uint32_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': 
 		      val=val1 + val2;
@@ -269,7 +269,7 @@ word_t eval(int begin,int end, bool *success){
   return val;
 }
 
-word_t expr(char *e, bool *success) {
+uint32_t expr(char *e, bool *success) {
   puts(e);
   if (!make_token(e)) {
     *success = false;
@@ -278,7 +278,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   *success = true;
-  word_t result = eval(0,nr_token-1,success);
+  uint32_t result = eval(0,nr_token-1,success);
   if(*success != true)  result = 0;
   return result;
 }
