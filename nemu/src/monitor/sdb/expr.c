@@ -75,7 +75,7 @@ typedef struct token {
 } Token;
 
 // token array
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[64] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
