@@ -194,7 +194,7 @@ int mainToken(int p,int q){
 // evaluate the val of expr
 unsigned eval(int begin,int end, bool *success){
   //debug
-  uint32_t val = 0;
+  word_t val = 0;
   printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
@@ -226,8 +226,8 @@ unsigned eval(int begin,int end, bool *success){
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d,%c\n",op,tokens[op].type);
-	uint32_t val1 = eval(begin, op - 1,success);
-	uint32_t val2 = eval(op + 1, end,success);
+	word_t val1 = eval(begin, op - 1,success);
+	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': 
 		      val=val1 + val2;
