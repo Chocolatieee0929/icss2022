@@ -229,16 +229,23 @@ unsigned eval(int begin,int end, bool *success){
 	unsigned val1 = eval(begin, op - 1,success);
 	unsigned val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
-	      case '+': return val1 + val2;
-	      case '-': return val1 - val2;		
-	      case '*': return val1 * val2;
+	      case '+': 
+		      val=val1 + val2;
+		      break;
+	      case '-':
+		     val =  val1 - val2;		
+		     break;
+	      case '*':
+		     val = val1 * val2;
+		     break;
 	      case '/': 
 			 if(val2==0){
 				 printf("Invalid Expression.\n");
 			 	 *success = false;
 				 return 0;
 			 }
-			return val1 / val2;
+			val = val1 / val2;
+			break;
 	      default: assert(0);
 	}
   }
