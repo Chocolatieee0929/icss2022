@@ -23,7 +23,7 @@ int is_exit_status_bad() {
   //printf("good = %d\n",good); good=1 ???
   // 
   Log("%d",!good);
-  printf("%d, %d",nemu_state.state,NEMU_ABORT);
+  printf("%d, %d, %d, %d/n",nemu_state.state,NEMU_ABORT,NEMU_QUIT,NEMU_STOP);
   //  In POSIX (and make), any exit code other than 0 is considered a failure;
   //  only 0 means that the command succeeded.
   return !good;
