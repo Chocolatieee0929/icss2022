@@ -137,10 +137,20 @@ static bool make_token(char *e) {
 
 // Judge legal braket 
 bool check_parentheses(int p,int q){
-	printf("p: %d,q: %d\n",p,q);
-	if(tokens[p].type == '(' && tokens[q].type == ')')
-		return true;
-	return false;
+   if(tokens[p].type != '('  || tokens[q].type != ')')
+        return false;
+   int l=p;int r=q;
+   while(l<r){
+	if(tokens[l].type=='('){
+	  if(tokens[r].type == ')'){
+	  	l ++ , r --;continue;
+	  }
+	  else r--;
+	}
+	else if(tokens[l].type == ')') return false;
+	else l++;
+   }
+   return true;
 }
 
 // 寻找主运算符
@@ -158,7 +168,7 @@ int mainToken(int p,int q){
       }
       if(tokens[i].type == '('){
       	int tail = q;
-	while(tail > i && tokens[tail].type!= ')') tail--;
+	while(tail > i && check_parentheses(i,tail)!=true) tail--;
         if(tail==i) return -1;
 	i = tail;       
       }
