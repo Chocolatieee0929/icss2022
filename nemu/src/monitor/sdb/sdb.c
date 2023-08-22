@@ -228,7 +228,7 @@ void sdb_mainloop() {
 }
 
 void test_expr(){
-   FILE *f = fopen("/home/ics2022/nemu/tools/gen-expr/input","r");
+   FILE *f = fopen("./tools/gen-expr/input","r");
    if(f==NULL){
 	perror("The file dont exist.\n");
 	return ;
