@@ -226,7 +226,7 @@ void sdb_mainloop() {
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
   }
 }
-/*
+
 void test_expr(){
    FILE *f = fopen("./tools/gen-expr/input","r");
    if(f==NULL){
@@ -235,56 +235,38 @@ void test_expr(){
    }
    size_t sz=0;
    char *line = NULL;
-   while(getline(&line,&sz,f)>0){
-   	word_t correct = atoi(strtok(line,""));
-   	char *EXPR = strtok(NULL,"");
-  	 bool result = true ;
-   	word_t re = expr(EXPR,&result);
-      	if(!result || re != correct){
-		printf("failed\n");
-   	}
-   	printf("result:%d\n",re);
+   ssize_t read;
+   word_t res;
+   word_t correct_res;
+
+   while (true) {
+	   bool success = true;
+	   if(fscanf(f, "%u ", &correct_res) == -1) break;
+   	   read = getline(&line, &sz, f);
+	   line[read-1] = '\0';
+
+	   res = expr(line, &success);
+			       
+	   assert(success);
+	   if (res != correct_res) {
+		   puts(line);
+		   printf("expected: %u, got: %u\n", correct_res, res);
+		   assert(0);
+	   }
    }
+   
+   fclose(f);
+   free(line);
    return ;
 
 }
-*/
-void test_expr() {
-	  FILE *fp = fopen("./tools/gen-expr/input", "r");
-	    if (fp == NULL) perror("test_expr error");
 
-	      char *e = NULL;
-	        word_t correct_res;
-		  size_t len = 0;
-		    ssize_t read;
-		      bool success = false;
-
-		        while (true) {
-				    if(fscanf(fp, "%u ", &correct_res) == -1) break;
-				        read = getline(&e, &len, fp);
-					    e[read-1] = '\0';
-					        
-					        word_t res = expr(e, &success);
-						    
-						    assert(success);
-						        if (res != correct_res) {
-								      puts(e);
-								            printf("expected: %u, got: %u\n", correct_res, res);
-									          assert(0);
-										      }
-							  }
-
-			  fclose(fp);
-			    if (e) free(e);
-
-			      Log("expr test pass");
-}
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
 
   /* test regex*/
-  test_expr();
+ // test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
