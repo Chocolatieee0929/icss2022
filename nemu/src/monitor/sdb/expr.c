@@ -192,9 +192,9 @@ int mainToken(int p,int q){
 }
 
 // evaluate the val of expr
-word_t eval(int begin,int end, bool *success){
+unsigned eval(int begin,int end, bool *success){
   //debug
-  word_t val = 0;
+  unsigned val = 0;
   printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
@@ -218,7 +218,7 @@ word_t eval(int begin,int end, bool *success){
   // else if((tokens[begin].type == '-' && begin == 0)
   //		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
   else if(tokens[begin].type == '-' && tokens[end].type == TK_DEX && begin+1==end){
-      uint32_t val1 = eval(begin+1, end,success);
+      unsigned val1 = eval(begin+1, end,success);
        val =val1*(-1);
   
   }
@@ -226,8 +226,8 @@ word_t eval(int begin,int end, bool *success){
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d,%c\n",op,tokens[op].type);
-	uint32_t val1 = eval(begin, op - 1,success);
-	uint32_t val2 = eval(op + 1, end,success);
+	unsigned val1 = eval(begin, op - 1,success);
+	unsigned val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': return val1 + val2;
 	      case '-': return val1 - val2;		
