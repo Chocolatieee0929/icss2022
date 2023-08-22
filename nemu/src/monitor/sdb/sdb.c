@@ -227,12 +227,34 @@ void sdb_mainloop() {
   }
 }
 
+void test_expr(){
+   FILE *f = fopen("/home/ics2022/nemu/tools/gen-expr/input","r");
+   if(f==NULL){
+	perror("The file dont exist.\n");
+	return ;
+   }
+   size_t sz=0;
+   char *line = NULL;
+   while(getline(&line,&sz,f)>0){
+   	word_t correct = atoi(strtok(line,""));
+   	char *EXPR = strtok(NULL,"");
+  	 bool result = true ;
+   	word_t re = expr(EXPR,&result);
+      	if(!result || re != correct){
+		printf("failed\n");
+   	}
+   	printf("result:%d\n",re);
+   }
+   return ;
+
+}
+
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
 
   /* test regex*/
-
+  test_expr();
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
