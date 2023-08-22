@@ -121,6 +121,10 @@ static int cmd_p(char *args){
 
 static int cmd_ptest(char *args){
    FILE *f = fopen(args,"r");
+   if(f==NULL){
+	printf("The file dont exist.\n");
+	return 0;
+   }
    size_t sz=0;
    char *line = NULL;
    while(getline(&line,&sz,f)>0){
