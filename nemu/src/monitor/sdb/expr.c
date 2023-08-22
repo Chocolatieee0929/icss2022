@@ -208,6 +208,7 @@ word_t eval(int begin,int end, bool *success){
 	  return 0;
       }
       val = atoi(tokens[begin].str);
+      printf("num:%u\n",val);
   }
   else if (check_parentheses(begin, end) == true){
   	val= eval(begin+1,end-1,success);
@@ -239,7 +240,7 @@ word_t eval(int begin,int end, bool *success){
 	      default: assert(0);
 	}
   }
-  printf("val:%u\n",val);
+ // printf("val:%u\n",val);
   return val;
 }
 
