@@ -147,7 +147,11 @@ bool check_parentheses(int p,int q){
 	  }
 	  else r--;
 	}
-	else if(tokens[l].type == ')') return false;
+	else if(tokens[l].type == ')'){
+		// debug
+	       	printf("l:%d",l);
+		return false;
+	}
 	else l++;
    }
    return true;
