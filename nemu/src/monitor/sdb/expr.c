@@ -249,6 +249,7 @@ word_t eval(int begin,int end, bool *success){
 		     }
 		     else if(val1<0){
 		     	val1 *= -1;
+			printf("val1:%d",val1);
 			flag = 1;
 		     }
 		     else if(val2<0){
