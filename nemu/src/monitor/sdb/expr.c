@@ -245,11 +245,12 @@ unsigned eval(int begin,int end, bool *success){
 				 return 0;
 			 }
 			val = val1 / val2;
+			printf("%d/%d=%d\n",val1,val2,val);
 			break;
 	      default: assert(0);
 	}
   }
-  printf("val:%d\n",val);
+  // printf("val:%d\n",val);
   return val;
 }
 
