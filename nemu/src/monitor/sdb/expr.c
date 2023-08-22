@@ -239,14 +239,27 @@ word_t eval(int begin,int end, bool *success){
 		     val = val1 * val2;
 		     break;
 	      case '/': 
-			 if(val2==0){
-				 printf("Invalid Expression.\n");
-			 	 *success = false;
-				 return 0;
-			 }
-			val = val1 / val2;
-			printf("%d/%d=%d\n",val1,val2,val);
-			break;
+		     int flag = 0;
+		     //debug
+		     printf("%d/%d",val1,val2);
+		     if(val2==0){
+	    		     printf("Invalid Expression.\n");
+    			     *success = false;
+			     return 0;
+		     }
+		     else if(val1<0){
+		     	val1 *= -1;
+			flag = 1;
+		     }
+		     else if(val2<0){
+			val2 *= -1;
+			if(flag) flag = 0;
+			else flag = 1;
+		     }
+		     val = val1 / val2;
+		     if(flag) val *= -1;
+	     	     printf("=%d\n",val);
+     		     break;
 	      default: assert(0);
 	}
   }
