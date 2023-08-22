@@ -239,6 +239,7 @@ word_t eval(int begin,int end, bool *success){
 	      default: assert(0);
 	}
   }
+  printf("val:%u\n",val);
   return val;
 }
 
