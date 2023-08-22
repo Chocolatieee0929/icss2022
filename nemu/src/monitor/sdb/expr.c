@@ -194,7 +194,7 @@ int mainToken(int p,int q){
 // evaluate the val of expr
 uint32_t eval(int begin,int end, bool *success){
   //debug
-  word_t val = 0;
+  uint32_t val = 0;
   printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
@@ -218,7 +218,7 @@ uint32_t eval(int begin,int end, bool *success){
   // else if((tokens[begin].type == '-' && begin == 0)
   //		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
   else if(tokens[begin].type == '-' && tokens[end].type == TK_DEX && begin+1==end){
-      word_t val1 = eval(begin+1, end,success);
+      uint32_t val1 = eval(begin+1, end,success);
        val =val1*(-1);
   
   }
@@ -247,17 +247,8 @@ uint32_t eval(int begin,int end, bool *success){
     			     *success = false;
 			     return 0;
 		     }
-		     else if(val1<0){
-		     	val1 *= -1;
-			printf("val1:%d",val1);
-			flag = 1;
-		     }
-		     else if(val2<0){
-			val2 *= -1;
-			if(flag) flag = 0;
-			else flag = 1;
-		     }
-		     val = val1 / val2;
+		     
+		     val =(uint32_t)val1 / val2;
 		     printf("=%d*-1",val);
 		     if(flag) val *= -1;
 	     	     printf("=%d\n",val);
