@@ -235,14 +235,31 @@ void test_expr(){
    }
    size_t sz=0;
    char *line = NULL;
-   ssize_t read;
+   // ssize_t read;
    word_t res;
    word_t correct_res;
 
+   while(getline(&line,&sz,f)>0){
+	bool success = true;
+       char nline[strlen(line)];
+       strcpy(nline,line);
+       char* num = strtok(nline," ");
+       correct_res = atoi(num);
+       num = strtok(NULL,"");
+       res = expr(num,&success);
+
+       assert(success);
+       if(res != correct_res){
+	  printf("expected: %u, got: %u\n", correct_res, res);
+	  assert(0);
+       }
+   }
+   /*
    while (true) {
 	   bool success = true;
 	   if(fscanf(f, "%u ", &correct_res) == -1) break;
    	   read = getline(&line, &sz, f);
+	   puts(line);
 	   line[read-1] = '\0';
 
 	   res = expr(line, &success);
@@ -254,7 +271,7 @@ void test_expr(){
 		   assert(0);
 	   }
    }
-   
+   */
    fclose(f);
    free(line);
    return ;
