@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
+#include <stdint.h> 
 
 int count = 0;
 static char buf[65536] = {};
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
-"#include <stdio.h>\n"
+"#include <stdio.h>\n#include <stdint.h>\n" 
 "int main() { \n"
-"  unsigned result = %s; \n"
+"  uint32_t result = %s; \n"
 "  printf(\"%%u\", result); \n"
 "  return 0; \n"
 "}\n";
@@ -98,8 +99,8 @@ int main(int argc, char *argv[]) {
         fp = popen("/tmp/.expr", "r");
         assert(fp != NULL);
 
-        unsigned result;
-        ret = fscanf(fp, "%d", &result);
+        uint32_t result;
+        ret = fscanf(fp, "%u", &result);
         pclose(fp);
 
         printf("%u %s\n", result, buf);
