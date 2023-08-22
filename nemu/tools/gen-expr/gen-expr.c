@@ -15,7 +15,7 @@ static char *code_format =
 "  return 0; \n"
 "}\n";
 
-static int choose(int num){
+static uint32_t choose(int num){
     return rand() % num;
 }
 
@@ -26,7 +26,7 @@ static void gen(char op) {
 
 static void gen_num() {
    // Avoid the condition that result integer too long
-   unsigned num = choose(100);
+   uint32_t num = choose(100);
    if(buf[count-1]=='\\'){
      num++;
    }

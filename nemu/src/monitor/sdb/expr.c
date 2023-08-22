@@ -192,9 +192,9 @@ int mainToken(int p,int q){
 }
 
 // evaluate the val of expr
-uint32_t eval(int begin,int end, bool *success){
+word_t eval(int begin,int end, bool *success){
   //debug
-  uint32_t val = 0;
+  word_t val = 0;
   printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
@@ -218,7 +218,7 @@ uint32_t eval(int begin,int end, bool *success){
   // else if((tokens[begin].type == '-' && begin == 0)
   //		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
   else if(tokens[begin].type == '-' && tokens[end].type == TK_DEX && begin+1==end){
-      uint32_t val1 = eval(begin+1, end,success);
+      unsigned val1 = eval(begin+1, end,success);
        val =val1*(-1);
   
   }
@@ -226,8 +226,8 @@ uint32_t eval(int begin,int end, bool *success){
 	int op = mainToken(begin,end);
 	//debug
 	printf("op:%d,%c\n",op,tokens[op].type);
-	uint32_t val1 = eval(begin, op - 1,success);
-	uint32_t val2 = eval(op + 1, end,success);
+	word_t val1 = eval(begin, op - 1,success);
+	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
 	      case '+': 
 		      val=val1 + val2;
@@ -247,8 +247,17 @@ uint32_t eval(int begin,int end, bool *success){
     			     *success = false;
 			     return 0;
 		     }
-		     
-		     val =(uint32_t)val1 / val2;
+		     else if(val1<0){
+		     	val1 *= -1;
+			printf("val1:%d",val1);
+			flag = 1;
+		     }
+		     else if(val2<0){
+			val2 *= -1;
+			if(flag) flag = 0;
+			else flag = 1;
+		     }
+		     val = val1 / val2;
 		     printf("=%d*-1",val);
 		     if(flag) val *= -1;
 	     	     printf("=%d\n",val);
@@ -260,7 +269,7 @@ uint32_t eval(int begin,int end, bool *success){
   return val;
 }
 
-uint32_t expr(char *e, bool *success) {
+word_t expr(char *e, bool *success) {
   puts(e);
   if (!make_token(e)) {
     *success = false;
@@ -269,7 +278,7 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   *success = true;
-  uint32_t result = eval(0,nr_token-1,success);
+  word_t result = eval(0,nr_token-1,success);
   if(*success != true)  result = 0;
   return result;
 }
