@@ -202,7 +202,7 @@ int mainToken(int p,int q){
 word_t eval(int begin,int end, bool *success){
   //debug
   word_t val = 0;
-  printf("begin:%d, end:%d\n",begin,end);
+  //printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
       printf("Invalid expression.\n");
@@ -232,7 +232,7 @@ word_t eval(int begin,int end, bool *success){
   else{
 	int op = mainToken(begin,end);
 	//debug
-	printf("op:%d,%c\n",op,tokens[op].type);
+	//printf("op:%d,%c\n",op,tokens[op].type);
 	word_t val1 = eval(begin, op - 1,success);
 	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
@@ -248,7 +248,7 @@ word_t eval(int begin,int end, bool *success){
 	      case '/': 
 		     int flag = 0;
 		     //debug
-		     printf("%d/%d",val1,val2);
+		     // printf("%d/%d",val1,val2);
 		     if(val2==0){
 	    		     printf("Invalid Expression.\n");
     			     *success = false;
