@@ -265,7 +265,8 @@ word_t eval(int begin,int end, bool *success){
 			else flag = 1;
 		     }
 		     val = (sword_t)val1 / (sword_t)val2;
-	     	     printf("=%d\n",val);
+	     	     // debug
+		     // printf("=%d\n",val);
      		     break;
 	      default: assert(0);
 	}
