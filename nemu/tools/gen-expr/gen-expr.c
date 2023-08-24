@@ -93,7 +93,8 @@ int main(int argc, char *argv[]) {
         fclose(fp);
 
         //execute a shell command
-        int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
+	// -Werror -Wall 
+        int ret = system("gcc /tmp/.code.c -o /tmp/.expr -Werror -Wall");
         if (ret != 0) continue;
 
         // popen, pclose - pipe stream to or from a process
