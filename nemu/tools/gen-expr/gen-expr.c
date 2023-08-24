@@ -24,29 +24,31 @@ static void gen(char op) {
   count++;  
 }
 
+static int gen_space() {
+    int remain = choose(4);
+    for (int i = 0; i < remain; i++) gen(' ');
+    return 0;
+}
+
 static void gen_num() {
    // Avoid the condition that result integer too long
-   uint32_t num = choose(100);
+   int num = choose(INT8_MAX);
    if(buf[count-1]=='\\'){
      num++;
    }
    sprintf(buf+count,"%u",num);
    while(buf[count]!=0)  count++;
+   gen_space();
    return;
 }
 
-static char gen_rand_op() {
+static int gen_rand_op() {
     char op[4] = {'+', '-', '*', '/'};
     int r = choose(4);
     gen(op[r]);
     return 0;
 }
 
-/*static void space() {
-    int remain = rand() % 10;
-    for (int i = 0; i < remain; i++) gen(' ');
-    return;
-}*/
 
 static void gen_rand_expr() {
     int i = choose(3);
