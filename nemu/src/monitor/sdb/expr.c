@@ -46,7 +46,7 @@ static struct rule {
   {"\\/", '/'},		// chuyi
   {"\\(",'('},		// bracket'('
   {"\\)",')'},		// bracket')'
- // {"0x[0-9]+",TK_HEX}, 	// hex_num
+  {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
 };
 
@@ -106,6 +106,14 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
 	  case TK_NOTYPE:
+		  break;
+	  case TK_HEX:
+		  tokens[nr_token].type=TK_HEX;
+		  for(int i=0;i<substr_len&&32;i++){
+			tokens[nr_token].str[i] = substr_start[i];
+		  }
+		  tokens[nr_token].str[substr_len]='\0';
+		  nr_token++;
 		  break;
 	  case TK_DEX:
 		  tokens[nr_token].type=TK_DEX;
@@ -222,12 +230,15 @@ word_t eval(int begin,int end, bool *success){
       return 0;
   }
   else if(begin == end){
-      if(tokens[begin].type!=TK_DEX) {
+      if(tokens[begin].type!=TK_DEX&&tokens[begin].type!=TK_HEX) {
 	  printf("Error exp, not number.\n");
 	  *success = false;
 	  return 0;
       }
-      val = atoi(tokens[begin].str);
+      if(tokens[begin].type==TK_DEX){
+      	val = strtol(tokens[begin].str, NULL, 16);
+      }
+      val = strtol(tokens[begin].str, NULL, 10);
       //printf("str:%s\n",tokens[begin].str);
       //printf("num:%u\n",val);
   }

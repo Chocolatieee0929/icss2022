@@ -115,7 +115,7 @@ static int cmd_p(char *args){
   if(!result){
   	printf("failed\n");
   }
-  printf("result:%d\n",(sword_t)re);
+  else printf("result:%d\n",(sword_t)re);
   return 0;
 }
 
