@@ -238,7 +238,7 @@ word_t eval(int begin,int end, bool *success){
       if(tokens[begin].type==TK_DEX){
       	val = strtol(tokens[begin].str, NULL, 16);
       }
-      val = strtol(tokens[begin].str, NULL, 10);
+      else val = strtol(tokens[begin].str, NULL, 10);
       //printf("str:%s\n",tokens[begin].str);
       //printf("num:%u\n",val);
   }
