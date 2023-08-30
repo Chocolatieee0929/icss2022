@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX, TK_RV,TK_HEX,
+  TK_DEX, TK_RV,TK_HEX,TK_AND,
 };
 
 static struct rule {
@@ -37,9 +37,10 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
+  {"&&", TK_AND},	// and
+  {"\\+", '+'},         // plus
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
@@ -122,6 +123,10 @@ static bool make_token(char *e) {
 		  tokens[nr_token].type = TK_RV;
 		  nr_token++;
 		  break;
+	  case TK_AND:
+		  tokens[nr_token].type = TK_AND;
+		  nr_token++;
+		  break;
           default:
 		 tokens[nr_token++].type = rules[i].token_type; 
 		 break;
@@ -181,7 +186,7 @@ int mainToken(int p,int q){
     int flag = 1;
     for(int i = p; i<q;i++){
 	// != ==
-      if(tokens[i].type==TK_EQ||tokens[i].type==TK_RV){
+      if(tokens[i].type==TK_AND||tokens[i].type==TK_EQ||tokens[i].type==TK_RV){
 	// debug
 	printf("!= ==\n");
       	mainindex = i;
@@ -248,6 +253,9 @@ word_t eval(int begin,int end, bool *success){
 		      break;
 	      case TK_RV:
 		      val = val1!=val2;
+		      break;
+	      case TK_AND:
+		      val = val1==val2;
 		      break;
 	      case '+': 
 		      val=val1 + val2;
