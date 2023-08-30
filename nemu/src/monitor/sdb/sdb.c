@@ -91,7 +91,7 @@ static int cmd_x(char *args){
   vaddr_t addr;
   // [N]
   if(N == NULL|| EXPR == NULL){
-  	printf("Invaild parament.");
+  	printf("Invalid parament.\n");
 	return 0;
   }
   sscanf(N,"%ld",&len);

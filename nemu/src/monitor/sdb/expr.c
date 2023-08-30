@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX, TK_RV,TK_HEX,TK_AND,
+  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_DEREF,
 };
 
 static struct rule {
@@ -35,7 +35,6 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
   {" +", TK_NOTYPE},    // spaces
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
@@ -48,6 +47,9 @@ static struct rule {
   {"\\)",')'},		// bracket')'
   {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
+
+  {"\\$\\w+"},	        // reg_name
+  // {"\\*w+"},            // 指针解引用
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -135,6 +137,17 @@ static bool make_token(char *e) {
 		  tokens[nr_token].type = TK_AND;
 		  nr_token++;
 		  break;
+	  case '*' :
+		if(nr_token==0||tokens[nr_token-1].type=='('){
+		  	tokens[nr_token].type = TK_DEREF;
+			for(int i=0;i<substr_len&&32;i++){                                  
+				tokens[nr_token].str[i] = substr_start[i];                            
+				tokens[nr_token].str[substr_len]='\0';
+    			}	
+			nr_token++;
+		  }	
+		 else tokens[nr_token++].type = '*';
+		 break;
           default:
 		 tokens[nr_token++].type = rules[i].token_type; 
 		 break;
@@ -317,6 +330,7 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   *success = true;
+
   word_t result = eval(0,nr_token-1,success);
   if(*success != true)  result = 0;
   return result;
