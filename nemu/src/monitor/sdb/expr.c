@@ -255,7 +255,7 @@ word_t eval(int begin,int end, bool *success){
 		      val = val1!=val2;
 		      break;
 	      case TK_AND:
-		      val = val1==val2;
+		      val = val1&&val2;
 		      break;
 	      case '+': 
 		      val=val1 + val2;
