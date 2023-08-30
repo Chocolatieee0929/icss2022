@@ -24,7 +24,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX, TK_RV,
+  TK_DEX, TK_RV,TK_HEX,
 };
 
 static struct rule {
@@ -39,13 +39,13 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
-  // {"\\!=", TK_RV},	// reverse
+  {"\\!=", TK_RV},	// reverse
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
   {"\\(",'('},		// bracket'('
   {"\\)",')'},		// bracket')'
- // {"0x[0-9A-F]+"}, 	// hex_num
+ // {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
 };
 
@@ -180,11 +180,16 @@ int mainToken(int p,int q){
     int mainindex = p;
     int flag = 1;
     for(int i = p; i<q;i++){
-      if(tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/')){
+	// != ==
+      if(tokens[i].type==TK_EQ||tokens[i].type==TK_RV){
+      	mainindex = i;
+	flag = 2;
+      } 
+      if(flag<2&&(tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/'))){
 	mainindex = i;
 	flag = 0;
       }
-      else if(flag&&(tokens[i].type == '*'||tokens[i].type =='/')){
+      else if(flag && (tokens[i].type == '*'||tokens[i].type =='/')){
 	mainindex=i;
 	flag = 1;
       }
@@ -236,6 +241,12 @@ word_t eval(int begin,int end, bool *success){
 	word_t val1 = eval(begin, op - 1,success);
 	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {
+	      case TK_EQ:
+		      val = val1==val2;
+		      break;
+	      case TK_RV:
+		      val = val1!=val2;
+		      break;
 	      case '+': 
 		      val=val1 + val2;
 		      break;
