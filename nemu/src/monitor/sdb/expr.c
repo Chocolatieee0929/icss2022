@@ -182,6 +182,8 @@ int mainToken(int p,int q){
     for(int i = p; i<q;i++){
 	// != ==
       if(tokens[i].type==TK_EQ||tokens[i].type==TK_RV){
+	// debug
+	printf("!= ==\n");
       	mainindex = i;
 	flag = 2;
       } 
