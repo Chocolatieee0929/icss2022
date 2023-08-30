@@ -9,12 +9,8 @@
 * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
 * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
 * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
-*
-* See the Mulan PSL v2 for more details.
-***************************************************************************************/
-
+*/
 #include <isa.h>
-
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -137,20 +133,22 @@ static bool make_token(char *e) {
 		  tokens[nr_token].type = TK_AND;
 		  nr_token++;
 		  break;
-	  case '*' :
-		if(nr_token==0||tokens[nr_token-1].type=='('){
+	  /*case '*' :
+		  if(nr_token==0||tokens[nr_token-1].type=='('){
+			printf("指针解引用.\n");
 		  	tokens[nr_token].type = TK_DEREF;
 			for(int i=0;i<substr_len&&32;i++){                                  
 				tokens[nr_token].str[i] = substr_start[i];                            
 				tokens[nr_token].str[substr_len]='\0';
     			}	
 			nr_token++;
-		  }	
-		 else tokens[nr_token++].type = '*';
-		 break;
+		   }	
+		  else tokens[nr_token++].type = '*';
+		  break;
+	  */
           default:
-		 tokens[nr_token++].type = rules[i].token_type; 
-		 break;
+		  tokens[nr_token++].type = rules[i].token_type; 
+		  break;
 	}
       break;
       }
