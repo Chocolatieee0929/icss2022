@@ -235,10 +235,10 @@ word_t eval(int begin,int end, bool *success){
 	  *success = false;
 	  return 0;
       }
-      if(tokens[begin].type==TK_DEX){
+      if(tokens[begin].type==TK_HEX){
       	val = strtol(tokens[begin].str, NULL, 16);
       }
-      else val = strtol(tokens[begin].str, NULL, 10);
+      val = strtol(tokens[begin].str, NULL, 10);
       //printf("str:%s\n",tokens[begin].str);
       //printf("num:%u\n",val);
   }
