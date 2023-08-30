@@ -276,6 +276,7 @@ word_t eval(int begin,int end, bool *success){
 }
 
 word_t expr(char *e, bool *success) {
+  // debug
   puts(e);
   if (!make_token(e)) {
     *success = false;

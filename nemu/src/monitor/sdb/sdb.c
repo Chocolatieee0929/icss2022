@@ -110,12 +110,12 @@ static int cmd_p(char *args){
 	return 0;
   }
   bool result = true ;
-  // word_t re = expr(EXPR,&result);
+  word_t re = expr(EXPR,&result);
   // debug
   if(!result){
   	printf("failed\n");
   }
-  //printf("result:%d\n",(int)re);
+  printf("result:%d\n",(sword_t)re);
   return 0;
 }
 
