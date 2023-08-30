@@ -191,7 +191,7 @@ int mainToken(int p,int q){
 	mainindex = i;
 	flag = 0;
       }
-      else if(flag<2 && (tokens[i].type == '*'||tokens[i].type =='/')){
+      else if(flag==1 && (tokens[i].type == '*'||tokens[i].type =='/')){
 	mainindex=i;
 	flag = 1;
       }
