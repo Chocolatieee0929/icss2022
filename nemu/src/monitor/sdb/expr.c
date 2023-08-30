@@ -238,9 +238,9 @@ word_t eval(int begin,int end, bool *success){
       if(tokens[begin].type==TK_HEX){
       	val = strtol(tokens[begin].str, NULL, 16);
       }
-      val = strtol(tokens[begin].str, NULL, 10);
-      //printf("str:%s\n",tokens[begin].str);
-      //printf("num:%u\n",val);
+      else val = strtol(tokens[begin].str, NULL, 10);
+      printf("str:%s\n",tokens[begin].str);
+      printf("num:%u\n",val);
   }
   else if (check_parentheses(begin, end) == true){
   	val= eval(begin+1,end-1,success);
