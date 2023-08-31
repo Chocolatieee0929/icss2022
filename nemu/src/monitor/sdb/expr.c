@@ -357,7 +357,7 @@ word_t expr(char *e, bool *success) {
 	}
 	if (tokens[i].type == '-' && (i == 0|| tokens[i-1].type == '('
 			       || tokens[i-1].type == TK_OR || tokens[i-1].type == TK_AND
-			       || tokens[i-1].type == TK_EQ || tokens[i-1].type != TK_RV) ) {
+			       || tokens[i-1].type == TK_EQ || tokens[i-1].type == TK_RV) ) {
 		tokens[i].type = TK_NEG;
 	}
   }
