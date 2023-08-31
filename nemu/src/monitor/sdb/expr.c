@@ -25,6 +25,11 @@ enum {
   //TK_VAR,
 };
 
+//static int bound_types[] = {')',TK_NUM,TK_REG}; // boundary for binary operator
+//static int relation_types[] = {TK_RV,TK_EQ, TK_GT, TK_LT, TK_GE, TK_LE}; 
+//static int op1_types[] = {TK_NEG, TK_POS, TK_DEREF}; // unary operator type
+
+
 static struct rule {
   const char *regex;
   int token_type;
@@ -230,7 +235,9 @@ int mainToken(int p,int q){
       	mainindex = i;
 	flag = 3;
       }// != ==
-      if(flag<3 && (tokens[i].type==TK_EQ||tokens[i].type==TK_RV)){
+      if(flag<3 && (tokens[i].type==TK_EQ||tokens[i].type==TK_RV
+		    ||tokens[i].type==TK_GT||tokens[i].type==TK_LT
+		    ||tokens[i].type==TK_GE||tokens[i].type==TK_LE )){
 	// debug
 	printf("!= ==\n");
       	mainindex = i;
