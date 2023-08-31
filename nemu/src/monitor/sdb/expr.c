@@ -17,10 +17,12 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, 
 
-  /* TODO: Add more token types */
-  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_OR,TK_REG,TK_DEREF,TK_NEG,
+  TK_DEX, TK_HEX,TK_NEG,
+  TK_RV,TK_EQ, TK_GT, TK_LT, TK_GE, TK_LE, 
+  TK_AND,TK_OR,  TK_REG,TK_DEREF, 
+  //TK_VAR,
 };
 
 static struct rule {
@@ -32,21 +34,27 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
   {" +", TK_NOTYPE},    // spaces
+
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
+  {"<", TK_LT}, {">", TK_GT}, {"<=", TK_LE}, {">=", TK_GE},
+
   {"&&", TK_AND},	// and
   {"\\|\\|", TK_OR}, 	// or
+			
   {"\\+", '+'},         // plus
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
   {"\\/", '/'},		// chuyi
+
   {"\\(",'('},		// bracket'('
   {"\\)",')'},		// bracket')'
+
   {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
 
-  {"\\$\\w+",TK_REG},	        // reg_name
-  // {"\\*w+"},            // 指针解引用
+  {"\\$\\w+",TK_REG},	// reg_name
+  //{"[A-Za-z_]\\w*",TK_VAR},    // 指针引用
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -298,6 +306,18 @@ word_t eval(int begin,int end, bool *success){
 	      case TK_RV:
 		      val = val1!=val2;
 		      break;
+	      case TK_GT: 
+		       val = val1 > val2;
+		       break;
+	      case TK_LT: 
+		       val = val1 < val2;
+		       break;
+	      case TK_GE:  
+		       val = val1 >= val2;
+		       break;
+	      case TK_LE: 
+		       val = val1 <= val2;
+		       break;
 	      case TK_AND:
 		      val = val1&&val2;
 		      break;
@@ -350,9 +370,9 @@ word_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   for (int i = 0; i < nr_token; i ++) {	 
-	if (tokens[i].type == '*' && (i == 0 || 
-		(tokens[i-1].type != ')' &&tokens[i-1].type != TK_DEX 
-		 && tokens[i-1].type != TK_HEX)) ) {
+	if (tokens[i].type == '*' &&  (i == 0|| tokens[i-1].type == '('
+			       || tokens[i-1].type == TK_OR || tokens[i-1].type == TK_AND
+			       || tokens[i-1].type == TK_EQ || tokens[i-1].type == TK_RV)) {
     		tokens[i].type = TK_DEREF;
 	}
 	if (tokens[i].type == '-' && (i == 0|| tokens[i-1].type == '('
