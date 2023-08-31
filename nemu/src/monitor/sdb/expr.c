@@ -355,10 +355,10 @@ word_t expr(char *e, bool *success) {
 		 && tokens[i-1].type != TK_HEX)) ) {
     		tokens[i].type = TK_DEREF;
 	}
-	if (tokens[i].type == '-' && (i == 0 || 
-		(tokens[i-1].type != ')' &&tokens[i-1].type != TK_DEX 
-		 	&& tokens[i-1].type != TK_HEX)) ) {
-    		tokens[i].type = TK_NEG;
+	if (tokens[i].type == '-' && (i == 0|| tokens[i-1].type == '('
+			       || tokens[i-1].type == TK_OR || tokens[i-1].type == TK_AND
+			       || tokens[i-1].type == TK_EQ || tokens[i-1].type != TK_RV) ) {
+		tokens[i].type = TK_NEG;
 	}
   }
 
