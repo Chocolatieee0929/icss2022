@@ -153,7 +153,7 @@ static bool make_token(char *e) {
 	  case TK_REG:
 		  tokens[nr_token].type = TK_REG;
 		  for(int i=0;i<substr_len&&32;i++){
-			tokens[nr_token].str[i] = substr_start[i];
+			tokens[nr_token].str[i] = substr_start[i+1];
 		  }
 		  tokens[nr_token].str[substr_len]='\0';
 		  nr_token++;
@@ -273,9 +273,8 @@ word_t eval(int begin,int end, bool *success){
       return 0;
   }
   else if(begin == end){
-      if(tokens[begin].type==TK_REG){
-	char* str =strtok(NULL,"$");  
-	val = isa_reg_str2val(str, success);
+      if(tokens[begin].type==TK_REG){ 
+	val = isa_reg_str2val(tokens[begin].str, success);
       }
       else if(tokens[begin].type!=TK_DEX && tokens[begin].type!=TK_HEX) {
 	  printf("Error exp, not number.\n");
