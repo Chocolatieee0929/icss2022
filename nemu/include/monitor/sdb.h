@@ -20,6 +20,4 @@
 
 word_t expr(char *e, bool *success);
 
-//static void wp_print();
-
 #endif

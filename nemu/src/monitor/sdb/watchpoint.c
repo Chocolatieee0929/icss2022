@@ -13,20 +13,22 @@
 * S/ee t* She Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+//#include <common.h>
+#include <monitor/watchpoint.h>
 
-#include "sdb.h"
+//#define NR_WP 32
 
-#define NR_WP 32
-
+/*
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 
-  /* TODO: Add more members if necessary */
+  // TODO: Add more members if necessary 
   char *expr;
   uint32_t pre_val;
   uint32_t new_val;
 } WP;
+*/
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
@@ -46,6 +48,18 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+void wp_print(){
+   WP* h = head;
+   if (!h) {
+           puts("No watchpoints.");
+           return;
+   }
+   printf("%-8s%-8s\n", "Num", "What");
+   while (h) {
+           printf("%-8d%-8s\n", h->NO, h->expr);
+           h = h->next;
+   }
+}
 
 WP* new_wp(){
    if(free_==NULL){
@@ -59,7 +73,7 @@ WP* new_wp(){
    return tmp;
 }
 
-void free_wp(WP *wp){
+void free_point(WP* wp){
    assert(wp);
    if(wp==head){
 	head = head->next;
@@ -72,7 +86,22 @@ void free_wp(WP *wp){
    }
    wp->next = free_;
    free_ = wp;
+
 }
 
-
+int free_wp(int num){
+   if(num < 0 || num > head->NO){
+        printf("N should be in [0,%d]\n",head->NO);
+	return -1;
+  }
+     WP* tmp = head;
+     while(tmp && tmp->NO > num){
+	     tmp->NO--;
+	     tmp = tmp->next;
+     }
+     tmp->NO = free_->NO;
+     free_point(tmp);
+     printf("Success to delete this watchpoint.\n");
+     return 0;
+}
 

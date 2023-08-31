@@ -17,8 +17,8 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "sdb.h"
-#include "watchpoint.c"
+#include <monitor/sdb.h>
+#include <monitor/watchpoint.h>
 #include <memory/vaddr.h>
 
 static int is_batch_mode = false;
@@ -45,6 +45,7 @@ static char* rl_gets() {
 }
 
 //printf watchpoint information
+/*
 static void wp_print(){
    WP* h = head;
    if (!h) {
@@ -57,6 +58,7 @@ static void wp_print(){
 	   h = h->next;
    }
 }
+*/
 static void add_watchpoint(char* EXPR,word_t re){
   WP* p = new_wp();
   p->new_val = re;
@@ -64,21 +66,6 @@ static void add_watchpoint(char* EXPR,word_t re){
   printf("%-8s%-8s%-8s","Number","EXPR","Val");
   printf("%-8d%-8s%-8d\n", p->NO, p->expr,p->new_val);
   printf("Success to add!\n");
-}
-
-static void del_watchpoint(int num){
-  if(num < 0 || num > head->NO){
-	printf("N should be in [0,%d]\n",head->NO);
-  }else{
-  	WP* tmp = head;
-  	while(tmp && tmp->NO > num){
-      		tmp->NO--;
-      		tmp = tmp->next;
-  	}
-	tmp->NO = free_->NO;
-	free_wp(tmp);
-	printf("Success to delete this watchpoint.\n");
-  }
 }
 
 static int cmd_c(char *args) {
@@ -189,7 +176,9 @@ static int cmd_del(char *args){
   if(!num){
   	printf("Usage: d N (delete watchpoint_num,N>0).\n");
   }
-  else del_watchpoint(num-1);
+  else{
+	 free_wp(num-1);
+  }
   return 0;
 }
 
