@@ -249,13 +249,14 @@ word_t eval(int begin,int end, bool *success){
       return 0;
   }
   else if(begin == end){
+      if(tokens[begin].type==TK_REG){
+	char* str =strtok(NULL,"$");  
+	val = isa_reg_str2val(str, success);
+      }
       if(tokens[begin].type!=TK_DEX&&tokens[begin].type!=TK_HEX) {
 	  printf("Error exp, not number.\n");
 	  *success = false;
 	  return 0;
-      }
-      if(tokens[begin].type==TK_REG){
-	val = isa_reg_str2val(tokens[begin].str, success);
       }
       else if(tokens[begin].type==TK_HEX){
       	val = strtol(tokens[begin].str, NULL, 16);
