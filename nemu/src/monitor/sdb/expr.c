@@ -20,7 +20,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_DEREF,
+  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_REG,TK_DEREF,
 };
 
 static struct rule {
@@ -44,7 +44,7 @@ static struct rule {
   {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
 
-  {"\\$\\w+"},	        // reg_name
+  {"\\$\\w+",TK_REG},	        // reg_name
   // {"\\*w+"},            // 指针解引用
 };
 
@@ -131,6 +131,14 @@ static bool make_token(char *e) {
 		  break;
 	  case TK_AND:
 		  tokens[nr_token].type = TK_AND;
+		  nr_token++;
+		  break;
+	  case TK_REG:
+		  tokens[nr_token].type = TK_REG;
+		  for(int i=0;i<substr_len&&32;i++){
+			tokens[nr_token].str[i] = substr_start[i];
+		  }
+		  tokens[nr_token].str[substr_len]='\0';
 		  nr_token++;
 		  break;
 	  /*case '*' :
@@ -246,7 +254,10 @@ word_t eval(int begin,int end, bool *success){
 	  *success = false;
 	  return 0;
       }
-      if(tokens[begin].type==TK_HEX){
+      if(tokens[begin].type==TK_REG){
+	val = isa_reg_str2val(tokens[begin].str, success);
+      }
+      else if(tokens[begin].type==TK_HEX){
       	val = strtol(tokens[begin].str, NULL, 16);
       }
       else val = strtol(tokens[begin].str, NULL, 10);
