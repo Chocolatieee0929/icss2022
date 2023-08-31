@@ -223,15 +223,15 @@ int mainToken(int p,int q){
       	mainindex = i;
 	flag = 3;
       }// != ==
-      if(flag<3 && (tokens[i].type==TK_AND||tokens[i].type==TK_EQ||tokens[i].type==TK_RV)){
+      if(flag<3 && (tokens[i].type==TK_EQ||tokens[i].type==TK_RV)){
 	// debug
 	printf("!= ==\n");
       	mainindex = i;
 	flag = 2;
       } 
-      if(flag<2 && (tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/'))){
+      if(flag<2 && (tokens[i].type == '+'||tokens[i].type=='-')){
 	mainindex = i;
-	flag = 0;
+	flag = 1;
       }
       else if(flag < 1 && (tokens[i].type == '*'||tokens[i].type =='/')){
 	mainindex=i;
