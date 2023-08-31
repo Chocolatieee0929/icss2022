@@ -359,6 +359,7 @@ word_t expr(char *e, bool *success) {
 			       || tokens[i-1].type == TK_OR || tokens[i-1].type == TK_AND
 			       || tokens[i-1].type == TK_EQ || tokens[i-1].type == TK_RV) ) {
 		tokens[i].type = TK_NEG;
+		printf("------\n");
 	}
   }
 
