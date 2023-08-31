@@ -71,11 +71,11 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args){
    // 提取命令
   char *arg = strtok(NULL," ");
-  if(strcmp(arg, "r")==0){
+  if(!strcmp(arg, "r")){
       isa_reg_display();
   }
-  else{
-     
+  else if(!strcmp(arg, "w")){
+    //  wp_print();   
   }
   return 0; 
 }

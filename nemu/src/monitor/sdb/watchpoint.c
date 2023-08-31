@@ -41,6 +41,12 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 /*
+static void print_wp(){
+  for(WP *tmp=head;tmp!=NULL;tmp=tmp->next){                                                  
+	printf("%s \t%x \t%d\n",regs[tmp->NO], cpu.gpr[tmp->NO], cpu.gpr[tmp->NO]); 
+  }
+}
+
 static WP* new_wp(){
    if(free_==NULL){
    	printf("No empty.\n");
@@ -66,5 +72,18 @@ static void free_wp(WP *wp){
    }
    wp->next = free_;
    free_ = wp;
+}
+
+static void wp_print(){
+  WP* h = head;
+  if (!h) {
+	 puts("No watchpoints.");
+	 return;
+  }
+  printf("%-8s%-8s\n", "Num", "What");
+  while (h) {	
+	  printf("%-8d%-8s\n", h->NO, h->expr);
+	  h = h->next;
+  }
 }
 */
