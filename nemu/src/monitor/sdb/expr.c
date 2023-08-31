@@ -35,7 +35,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
   {"&&", TK_AND},	// and
-  {"||", TK_OR}, 	// or
+  {"\\|\\|", TK_OR}, 	// or
   {"\\+", '+'},         // plus
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
