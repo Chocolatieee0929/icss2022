@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "watchpoint.c"
 #include <memory/vaddr.h>
 
 static int is_batch_mode = false;
@@ -41,6 +42,43 @@ static char* rl_gets() {
   }
 
   return line_read;
+}
+
+//printf watchpoint information
+static void wp_print(){
+   WP* h = head;
+   if (!h) {
+	   puts("No watchpoints.");
+	   return;
+   }
+   printf("%-8s%-8s\n", "Num", "What");
+   while (h) {
+	   printf("%-8d%-8s\n", h->NO, h->expr);
+	   h = h->next;
+   }
+}
+static void add_watchpoint(char* EXPR,word_t re){
+  WP* p = new_wp();
+  p->new_val = re;
+  strcpy(p->expr, EXPR);
+  printf("%-8s%-8s%-8s","Number","EXPR","Val");
+  printf("%-8d%-8s%-8d\n", p->NO, p->expr,p->new_val);
+  printf("Success to add!\n");
+}
+
+static void del_watchpoint(int num){
+  if(num < 0 || num > head->NO){
+	printf("N should be in [0,%d]\n",head->NO);
+  }else{
+  	WP* tmp = head;
+  	while(tmp && tmp->NO > num){
+      		tmp->NO--;
+      		tmp = tmp->next;
+  	}
+	tmp->NO = free_->NO;
+	free_wp(tmp);
+	printf("Success to delete this watchpoint.\n");
+  }
 }
 
 static int cmd_c(char *args) {
@@ -75,7 +113,10 @@ static int cmd_info(char *args){
       isa_reg_display();
   }
   else if(!strcmp(arg, "w")){
-    //  wp_print();   
+      wp_print();   
+  }
+  else {
+	  printf("Usage: info r (registers) or info w (watchpoints)\n");
   }
   return 0; 
 }
@@ -120,6 +161,37 @@ static int cmd_p(char *args){
   else printf("result:%d\n",(sword_t)re);
   return 0;
 }
+static int cmd_w(char *args){
+  char *EXPR = strtok(NULL,"");
+  if(EXPR == NULL){
+  	printf("Invaild parament.");
+	return 0;
+  }
+  bool result = true ;
+  word_t re = expr(EXPR,&result);
+  // debug
+  if(!result){
+  	printf("failed\n");
+  }
+  else add_watchpoint(EXPR,re);
+  return 0;
+}
+
+static int cmd_del(char *args){
+  char *EXPR = strtok(NULL,"");
+  if(EXPR == NULL){
+  	printf("Invaild parament.");
+	return 0;
+  }
+
+  word_t num = strtol(args, NULL, 10);
+  // debug
+  if(!num){
+  	printf("Usage: d N (delete watchpoint_num,N>0).\n");
+  }
+  else del_watchpoint(num-1);
+  return 0;
+}
 
 /*
 static int cmd_ptest(char *args){
@@ -159,8 +231,8 @@ static struct {
   {"x","求出表达式EXPR的值, 将结果作为起始内存地址, 以十六进制形式输出连续的N个4字节, eg:x [N] EXPR",cmd_x},
   {"p","求出表达式EXPR的值 p $eax + 1",cmd_p},
  // {"p_test","cmd_p test ,file in ./input",cmd_ptest},
- //{"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
- // {"d [N]","删除序号为N的监视点 d 2",cmd_del}, 
+ {"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
+  {"d [N]","删除序号为N的监视点 d 2",cmd_del}, 
 };
 
 #define NR_CMD ARRLEN(cmd_table)

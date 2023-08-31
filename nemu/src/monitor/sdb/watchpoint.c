@@ -13,6 +13,7 @@
 * S/ee t* She Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+
 #include "sdb.h"
 
 #define NR_WP 32
@@ -22,7 +23,9 @@ typedef struct watchpoint {
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
-
+  char *expr;
+  uint32_t pre_val;
+  uint32_t new_val;
 } WP;
 
 static WP wp_pool[NR_WP] = {};
@@ -32,6 +35,9 @@ void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
+    wp_pool[i].pre_val=0;
+    wp_pool[i].new_val=0;
+    wp_pool[i].expr=NULL;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
 
@@ -40,26 +46,20 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
-/*
-static void print_wp(){
-  for(WP *tmp=head;tmp!=NULL;tmp=tmp->next){                                                  
-	printf("%s \t%x \t%d\n",regs[tmp->NO], cpu.gpr[tmp->NO], cpu.gpr[tmp->NO]); 
-  }
-}
 
-static WP* new_wp(){
+WP* new_wp(){
    if(free_==NULL){
    	printf("No empty.\n");
 	assert(0);
    }
    WP* tmp = free_;
-   free_ = free->next;
+   free_ = free_->next;
    tmp->next = head;
    head = tmp;
    return tmp;
 }
 
-static void free_wp(WP *wp){
+void free_wp(WP *wp){
    assert(wp);
    if(wp==head){
 	head = head->next;
@@ -74,16 +74,5 @@ static void free_wp(WP *wp){
    free_ = wp;
 }
 
-static void wp_print(){
-  WP* h = head;
-  if (!h) {
-	 puts("No watchpoints.");
-	 return;
-  }
-  printf("%-8s%-8s\n", "Num", "What");
-  while (h) {	
-	  printf("%-8d%-8s\n", h->NO, h->expr);
-	  h = h->next;
-  }
-}
-*/
+
+
