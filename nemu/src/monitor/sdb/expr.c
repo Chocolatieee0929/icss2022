@@ -253,7 +253,7 @@ word_t eval(int begin,int end, bool *success){
 	char* str =strtok(NULL,"$");  
 	val = isa_reg_str2val(str, success);
       }
-      if(tokens[begin].type!=TK_DEX&&tokens[begin].type!=TK_HEX) {
+      else if(tokens[begin].type!=TK_DEX && tokens[begin].type!=TK_HEX) {
 	  printf("Error exp, not number.\n");
 	  *success = false;
 	  return 0;
