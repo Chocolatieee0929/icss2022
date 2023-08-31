@@ -20,7 +20,7 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_REG,TK_DEREF,
+  TK_DEX, TK_RV,TK_HEX,TK_AND,TK_OR,TK_REG,TK_DEREF,TK_NEG,
 };
 
 static struct rule {
@@ -35,6 +35,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
   {"&&", TK_AND},	// and
+  {"||", TK_OR}, 	// or
   {"\\+", '+'},         // plus
   {"\\-", '-'},		// substract
   {"\\*", '*'},		// multiply
@@ -133,6 +134,10 @@ static bool make_token(char *e) {
 		  tokens[nr_token].type = TK_AND;
 		  nr_token++;
 		  break;
+	  case TK_OR: 
+		  tokens[nr_token].type = TK_OR;
+		  nr_token++;
+		  break;
 	  case TK_REG:
 		  tokens[nr_token].type = TK_REG;
 		  for(int i=0;i<substr_len&&32;i++){
@@ -210,22 +215,27 @@ bool check_parentheses(int p,int q){
 // 寻找主运算符
 int mainToken(int p,int q){
     int mainindex = p;
-    int flag = 1;
+    int flag = 0;
     for(int i = p; i<q;i++){
-	// != ==
-      if(tokens[i].type==TK_AND||tokens[i].type==TK_EQ||tokens[i].type==TK_RV){
+     if(tokens[i].type==TK_AND||tokens[i].type==TK_OR){
+	// debug
+	printf("&& ||\n");
+      	mainindex = i;
+	flag = 3;
+      }// != ==
+      if(flag<3 && (tokens[i].type==TK_AND||tokens[i].type==TK_EQ||tokens[i].type==TK_RV)){
 	// debug
 	printf("!= ==\n");
       	mainindex = i;
 	flag = 2;
       } 
-      if(flag<2&&(tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/'))){
+      if(flag<2 && (tokens[i].type == '+'||(i!=p&&tokens[i].type =='-'&& tokens[i-1].type!='-'&& tokens[i-1].type!='+'&&tokens[i-1].type!='*'&&tokens[i-1].type!='/'))){
 	mainindex = i;
 	flag = 0;
       }
-      else if(flag==1 && (tokens[i].type == '*'||tokens[i].type =='/')){
+      else if(flag < 1 && (tokens[i].type == '*'||tokens[i].type =='/')){
 	mainindex=i;
-	flag = 1;
+	flag = 0;
       }
       if(tokens[i].type == '('){
       	int tail = q;
@@ -270,7 +280,7 @@ word_t eval(int begin,int end, bool *success){
   }
   // else if((tokens[begin].type == '-' && begin == 0)
   //		  ||(tokens[begin].type == '-' && begin > 0 && tokens[begin-1].type != TK_DEX && tokens[begin+1].type == TK_DEX)){
-  else if(tokens[begin].type == '-' && tokens[end].type == TK_DEX && begin+1==end){
+  else if(tokens[begin].type == TK_NEG && tokens[end].type == TK_DEX && begin+1==end){
       unsigned val1 = eval(begin+1, end,success);
        val =val1*(-1);
   
@@ -339,6 +349,17 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
+  for (int i = 0; i < nr_token; i ++) {	 
+	if (tokens[i].type == '*' && (i == 0 || 
+				(tokens[i-1].type != TK_DEX && tokens[i-1].type != TK_HEX)) ) {
+    		tokens[i].type = TK_DEREF;
+	}
+	if (tokens[i].type == '-' && (i == 0 || 
+				(tokens[i-1].type != TK_DEX && tokens[i-1].type != TK_HEX)) ) {
+    		tokens[i].type = TK_NEG;
+	}
+  }
+
   *success = true;
 
   word_t result = eval(0,nr_token-1,success);
