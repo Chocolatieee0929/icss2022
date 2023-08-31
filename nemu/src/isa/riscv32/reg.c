@@ -30,5 +30,11 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
+  for(int i =0; i < 32; i ++){
+	if(!strcmp(s, regs[i])){
+	     printf("%s \t%x \t%d\n",regs[i], cpu.gpr[i], cpu.gpr[i]);
+	     return cpu.gpr[i];
+	}
+  }
   return 0;
 }
