@@ -37,8 +37,7 @@ static struct rule {
 
   {"==", TK_EQ},        // equal
   {"\\!=", TK_RV},	// reverse
-  {"<", TK_LT}, {">", TK_GT}, {"<=", TK_LE}, {">=", TK_GE},
-
+  {"<=", TK_LE}, {">=", TK_GE}, {"<", TK_LT}, {">", TK_GT}, 
   {"&&", TK_AND},	// and
   {"\\|\\|", TK_OR}, 	// or
 			
