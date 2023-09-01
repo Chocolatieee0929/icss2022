@@ -15,7 +15,7 @@
 
 //#include <common.h>
 #include <monitor/watchpoint.h>
-
+#include <monitor/sdb.h>
 //#define NR_WP 32
 
 /*
@@ -48,6 +48,29 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+
+bool is_wps_diff(){
+  WP* tmp = head;
+  int flag = 0;
+  if(!tmp){
+  	return false;
+  }
+  while(tmp){
+  	tmp->pre_val = tmp->new_val;
+	bool result = true ;                                                                        
+	bool hex = false;                                                                           
+	tmp->new_val = expr(tmp->expr,&result,&hex);
+	assert(result);
+	if(tmp->new_val!=tmp->pre_val){
+		if(!flag) printf("%-8s%-8s%-16s%-16s\n","Number","EXPR","Pre_val","New_val");
+		if(hex) printf("%-8d%-8s%-16x%-16x\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
+		else printf("%-8d%-8s%-16d%-16d\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
+		flag = 1;
+	}
+  }
+  return true;
+}
+
 void wp_print(){
    WP* h = head;
    if (!h) {
@@ -64,7 +87,8 @@ void wp_print(){
 WP* new_wp(){
    if(free_==NULL){
    	printf("No empty.\n");
-	assert(0);
+	//assert(0);
+	return NULL;
    }
    WP* tmp = free_;
    free_ = free_->next;
