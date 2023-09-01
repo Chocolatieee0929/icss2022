@@ -56,6 +56,8 @@ bool is_wps_diff(){
   	return false;
   }
   while(tmp){
+	// debug
+	printf("Now NO.%d:%s",tmp->NO,tmp->expr);
   	tmp->pre_val = tmp->new_val;
 	bool result = true ;                                                                        
 	bool hex = false;                                                                           
