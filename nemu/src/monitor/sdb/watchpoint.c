@@ -91,7 +91,7 @@ void free_point(WP* wp){
 
 int free_wp(int num){
    if(num < 0 || num > head->NO){
-        printf("N should be in [0,%d]\n",head->NO);
+        printf("N should be in [1,%d]\n",head->NO+1);
 	return -1;
   }
      WP* tmp = head;
