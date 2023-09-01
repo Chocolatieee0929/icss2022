@@ -306,12 +306,14 @@ word_t eval(int begin,int end, bool *success){
   	 vaddr_t addr;
 	 sscanf(tokens[end].str,"%x",&addr);
 	  if(!(addr >= 0x80000000 && addr <=0x87ffffff)){
-		  printf("addr should be in [0x80000000,0x87ffffff].\n");
-		  val=0;
-		  *success = false;
+		printf("addr should be in [0x80000000,0x87ffffff].\n");
+		val=0;
+		*success = false;
 	  }
-	  val = vaddr_read(addr,4);
-	  flag=0;
+	  else{
+	  	val = vaddr_read(addr,4);
+	  	flag=0;
+	  }
   }
   else{
 	int op = mainToken(begin,end);
