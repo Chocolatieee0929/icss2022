@@ -299,7 +299,7 @@ word_t eval(int begin,int end, bool *success){
        val =val1*(-1);
   
   }
-  else if(tokens[begin].type == TK_DEREF && tokens[end].type == TK_DEX && begin+1==end){
+  else if(tokens[begin].type == TK_DEREF && tokens[end].type == TK_HEX && begin+1==end){
   	 vaddr_t addr;
 	 sscanf(tokens[end].str,"%x",&addr);
 	  val = vaddr_read(addr,4);
