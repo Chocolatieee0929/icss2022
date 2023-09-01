@@ -51,10 +51,10 @@ void init_wp_pool() {
 void wp_print(){
    WP* h = head;
    if (!h) {
-           puts("No watchpoints.");
+           puts("No watchpoints.\n");
            return;
    }
-   printf("%-8s%-8s\n", "Num", "What");
+   printf("%-8s%-8s\n", "Num", "EXPR");
    while (h) {
            printf("%-8d%-8s\n", h->NO, h->expr);
            h = h->next;

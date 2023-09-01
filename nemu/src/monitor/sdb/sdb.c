@@ -65,8 +65,8 @@ static void add_watchpoint(char* EXPR,word_t re){
   printf("new_wp.\n");
   p->new_val = re;
   p->expr = EXPR;
-  printf("%-8s%-8s%-8s","Number","EXPR","Val\n");
-  printf("%-8d%-8s%-8x\n", p->NO, p->expr,p->new_val);
+  printf("%-8s%-8s","Number","EXPR");
+  printf("%-8d%-8s\n", p->NO, p->expr);
   printf("Success to add!\n");
 }
 
@@ -188,6 +188,7 @@ static int cmd_del(char *args){
   }
   else{
 	 free_wp(num-1);
+	 wp_print();
   }
   return 0;
 }
