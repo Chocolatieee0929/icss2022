@@ -140,11 +140,13 @@ static int cmd_p(char *args){
 	return 0;
   }
   bool result = true ;
-  word_t re = expr(EXPR,&result);
+  bool hex = false;
+  word_t re = expr(EXPR,&result,&hex);
   // debug
   if(!result){
   	printf("failed\n");
   }
+  else if(hex) printf("result:%x\n",(sword_t)re);
   else printf("result:%d\n",(sword_t)re);
   return 0;
 }
@@ -155,7 +157,8 @@ static int cmd_w(char *args){
 	return 0;
   }
   bool result = true ;
-  word_t re = expr(EXPR,&result);
+  bool hex = false;
+  word_t re = expr(EXPR,&result,&hex);
   // debug
   if(!result){
   	printf("failed\n");
@@ -314,7 +317,8 @@ void test_expr(){
        char* num = strtok(nline," ");
        correct_res = atoi(num);
        num = strtok(NULL,"");
-       res = expr(num,&success);
+       bool hex = false;
+       res = expr(num,&success,&hex);
 
        assert(success);
        if(res != correct_res){

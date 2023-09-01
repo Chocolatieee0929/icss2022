@@ -17,6 +17,9 @@
 #include <regex.h>
 #include <memory/vaddr.h>
 
+// 1->%d, 0->%x
+static int flag = 1;
+
 enum {
   TK_NOTYPE = 256, 
 
@@ -303,6 +306,7 @@ word_t eval(int begin,int end, bool *success){
   	 vaddr_t addr;
 	 sscanf(tokens[end].str,"%x",&addr);
 	  val = vaddr_read(addr,4);
+	  flag=0;
   }
   else{
 	int op = mainToken(begin,end);
@@ -371,7 +375,7 @@ word_t eval(int begin,int end, bool *success){
   return val;
 }
 
-word_t expr(char *e, bool *success) {
+word_t expr(char *e, bool *success,bool *hex) {
   // debug
   puts(e);
   if (!make_token(e)) {
@@ -398,5 +402,7 @@ word_t expr(char *e, bool *success) {
 
   word_t result = eval(0,nr_token-1,success);
   if(*success != true)  result = 0;
+  if(flag == 0) *hex=true;
+  else *hex=false;
   return result;
 }
