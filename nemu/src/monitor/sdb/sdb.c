@@ -228,8 +228,8 @@ static struct {
   {"x","求出表达式EXPR的值, 将结果作为起始内存地址, 以十六进制形式输出连续的N个4字节, eg:x [N] EXPR",cmd_x},
   {"p","求出表达式EXPR的值 p $eax + 1",cmd_p},
  // {"p_test","cmd_p test ,file in ./input",cmd_ptest},
- {"w EXPR","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
-  {"d [N]","删除序号为N的监视点 d 2",cmd_del}, 
+ {"w","当表达式EXPR的值发生变化时, 暂停程序执行 w *0x2000",cmd_w},
+  {"d","删除序号为N的监视点 d 2",cmd_del}, 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
