@@ -60,6 +60,7 @@ static void wp_print(){
 }
 */
 static void add_watchpoint(char* EXPR,word_t re){
+  printf("add_wp.\n");
   WP* p = new_wp();
   p->new_val = re;
   strcpy(p->expr, EXPR);
