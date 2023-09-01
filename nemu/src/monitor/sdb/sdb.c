@@ -71,6 +71,7 @@ static int add_watchpoint(char* EXPR,word_t re){
   p->expr = EXPR;
   printf("%-8s%-8s\n","Number","EXPR");
   printf("%-8d%-8s\n", p->NO, p->expr);
+  wp_print();
   printf("Success to add!\n");
   return 0;
 }
