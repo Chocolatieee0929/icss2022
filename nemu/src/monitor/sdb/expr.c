@@ -235,7 +235,7 @@ int mainToken(int p,int q){
     for(int i = p; i<q;i++){
      if(tokens[i].type==TK_AND||tokens[i].type==TK_OR){
 	// debug
-	printf("&& ||\n");
+	//printf("&& ||\n");
       	mainindex = i;
 	flag = 3;
       }// != ==
@@ -243,7 +243,7 @@ int mainToken(int p,int q){
 		    ||tokens[i].type==TK_GT||tokens[i].type==TK_LT
 		    ||tokens[i].type==TK_GE||tokens[i].type==TK_LE )){
 	// debug
-	printf("!= ==\n");
+	//printf("!= ==\n");
       	mainindex = i;
 	flag = 2;
       } 
@@ -269,7 +269,7 @@ int mainToken(int p,int q){
 word_t eval(int begin,int end, bool *success){
   //debug
   word_t val = 0;
-  printf("begin:%d, end:%d\n",begin,end);
+  //printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
       printf("Invalid expression.\n");
@@ -305,13 +305,18 @@ word_t eval(int begin,int end, bool *success){
   else if(tokens[begin].type == TK_DEREF && tokens[end].type == TK_HEX && begin+1==end){
   	 vaddr_t addr;
 	 sscanf(tokens[end].str,"%x",&addr);
+	  if(!(addr >= 0x80000000 && addr <=0x87ffffff)){
+		  printf("addr should be in [0x80000000,0x87ffffff].\n");
+		  val=0;
+		  *success = false;
+	  }
 	  val = vaddr_read(addr,4);
 	  flag=0;
   }
   else{
 	int op = mainToken(begin,end);
 	//debug
-	printf("op:%d,%c\n",op,tokens[op].type);
+	//printf("op:%d,%c\n",op,tokens[op].type);
 	word_t val1 = eval(begin, op - 1,success);
 	word_t val2 = eval(op + 1, end,success);
 	switch (tokens[op].type) {

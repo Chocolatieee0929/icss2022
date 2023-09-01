@@ -126,7 +126,12 @@ static int cmd_x(char *args){
   }
   sscanf(N,"%ld",&len);
   sscanf(EXPR,"%x",&addr);
+  //if(!(addr >= 0x80000000 && addr <=0x87ffffff))
   for(int i = 0; i<len; i++){
+	if(!(addr >= 0x80000000 && addr <=0x87ffffff)){
+		printf("addr should be in [0x80000000,0x87ffffff].\n");
+		return 0;
+	}
 	printf("%x:%x\n",addr,vaddr_read(addr,4));
 	addr += 4;
   }
