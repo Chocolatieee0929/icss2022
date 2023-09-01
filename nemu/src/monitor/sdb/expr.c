@@ -108,7 +108,8 @@ static bool make_token(char *e) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-
+	
+	// debug
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
@@ -272,7 +273,7 @@ word_t eval(int begin,int end, bool *success){
   //printf("begin:%d, end:%d\n",begin,end);
   if(begin > end || *success == false){
   /* Bad expression */
-      printf("Invalid expression.\n");
+      // printf("Invalid expression.\n");
       *success = false;
       return 0;
   }
@@ -281,7 +282,7 @@ word_t eval(int begin,int end, bool *success){
 	val = isa_reg_str2val(tokens[begin].str, success);
       }
       else if(tokens[begin].type!=TK_DEX && tokens[begin].type!=TK_HEX) {
-	  printf("Error exp, not number.\n");
+	  printf("Error exp, it is not correct number.\n");
 	  *success = false;
 	  return 0;
       }
@@ -289,8 +290,9 @@ word_t eval(int begin,int end, bool *success){
       	val = strtol(tokens[begin].str, NULL, 16);
       }
       else val = strtol(tokens[begin].str, NULL, 10);
-      printf("str:%s\n",tokens[begin].str);
-      printf("num:%u\n",val);
+      //debug
+      //printf("str:%s\n",tokens[begin].str);
+      // printf("num:%u\n",val);
   }
   else if (check_parentheses(begin, end) == true){
   	val= eval(begin+1,end-1,success);

@@ -149,7 +149,7 @@ static int cmd_p(char *args){
   word_t re = expr(EXPR,&result,&hex);
   // debug
   if(!result){
-  	printf("failed\n");
+  	printf("The EXPR is invalid, please try again.\n");
   }
   else if(hex) printf("result:%x\n",(sword_t)re);
   else printf("result:%d\n",(sword_t)re);
