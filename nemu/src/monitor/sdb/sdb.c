@@ -59,18 +59,19 @@ static void wp_print(){
    }
 }
 */
-static int add_watchpoint(char* EXPR,word_t re){
+static int add_watchpoint(char* EXPR, word_t re){
   //printf("add_wp.\n");
   WP* p = new_wp();
   if(!p){
-	puts("Please delete some points that you should not need if you want to add new.\n");
+	//puts("Please delete some points that you should not need if you want to add new.\n");
 	return 0;
   }
+  //debug
   printf("new_wp.\n");
   p->new_val = re;
   // point would be changed if you add new EXPR
   // p->expr = EXPR;
-  p->expr =(char*)malloc(strlen(EXPR)*sizeof(char));
+  //p->expr =(char*)malloc(strlen(EXPR)*sizeof(char));
   strcpy(p->expr,EXPR);
   printf("%-8s%-8s\n","Number","EXPR");
   printf("%-8d%-8s\n", p->NO, p->expr);
@@ -170,8 +171,11 @@ static int cmd_p(char *args){
 static int cmd_w(char *args){
   char *EXPR = strtok(NULL,"");
   if(EXPR == NULL){
-  	printf("Invaild parament.");
+  	puts("Invaild parament.");
 	return 0;
+  }
+  else if(is_exit_wp(EXPR)){
+	puts("The watchpoint already is exist.");
   }
   bool result = true ;
   bool hex = false;

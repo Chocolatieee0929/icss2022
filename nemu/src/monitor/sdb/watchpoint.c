@@ -39,7 +39,7 @@ void init_wp_pool() {
     wp_pool[i].NO = i;
     wp_pool[i].pre_val=0;
     wp_pool[i].new_val=0;
-    wp_pool[i].expr=NULL;
+    //wp_pool[i].expr = malloc(100*sizeof(char*));
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
 
@@ -104,8 +104,9 @@ void wp_print(){
 
 WP* new_wp(){
    if(free_==NULL){
-   	printf("No empty.\n");
+   	//printf("No empty.\n");
 	//assert(0);
+	puts("Please delete some points that you should not need if you want to add new.\n");
 	return NULL;
    }
    WP* tmp = free_;
@@ -117,7 +118,7 @@ WP* new_wp(){
 
 void free_point(WP* wp){
    assert(wp);
-   free(wp->expr);
+   //free(wp->expr);
    if(wp==head){
 	head = head->next;
    }
