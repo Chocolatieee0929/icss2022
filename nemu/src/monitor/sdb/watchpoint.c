@@ -65,7 +65,7 @@ bool is_wps_diff(){
 	tmp->new_val = expr(tmp->expr,&result,&hex);
 	assert(result);
 	if(tmp->new_val!=tmp->pre_val){
-		if(!flag) printf("%s\t%s\t%s\t%s\t\n","Number","EXPR","Pre_val","New_val");
+		if(!flag) printf("%s\t%s\t%-32s\t%-32s\t\n","Number","EXPR","Pre_val","New_val");
 		if(hex) printf("%d\t%s\t%x\t%x\t\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
 		else printf("%-8d%-8s%-16d%-16d\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
 		flag = 1;
