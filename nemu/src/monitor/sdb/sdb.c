@@ -67,7 +67,7 @@ static int add_watchpoint(char* EXPR, word_t re){
 	return 0;
   }
   //debug
-  printf("new_wp.\n");
+  // printf("new_wp.\n");
   p->new_val = re;
   // point would be changed if you add new EXPR
   // p->expr = EXPR;
