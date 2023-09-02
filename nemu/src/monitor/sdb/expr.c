@@ -307,15 +307,17 @@ word_t eval(int begin,int end, bool *success){
   else if(tokens[begin].type == TK_DEREF && tokens[end].type == TK_HEX && begin+1==end){
   	 vaddr_t addr;
 	 sscanf(tokens[end].str,"%x",&addr);
+	 /*
 	  if(!(addr >= 0x80000000 && addr <=0x87ffffff)){
 		printf("addr should be in [0x80000000,0x87ffffff].\n");
 		val=0;
 		*success = false;
 	  }
-	  else{
+	  */
+	  //else{
 	  	val = vaddr_read(addr,4);
 	  	flag=0;
-	  }
+	 // }
   }
   else{
 	int op = mainToken(begin,end);
