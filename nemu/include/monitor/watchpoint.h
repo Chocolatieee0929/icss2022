@@ -23,3 +23,4 @@ WP* new_wp();
 int free_wp(int num);
 void wp_print();
 bool is_wps_diff();
+bool is_exit_wp(char* EXPR);

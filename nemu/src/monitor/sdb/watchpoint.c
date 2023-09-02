@@ -78,6 +78,16 @@ bool is_wps_diff(){
   if(flag) return true;
   return false;
 }
+bool is_exit_wp(char* EXPR){
+   WP* h = head;
+   if (!h)  return false;
+   while (h) {
+	   if(!strcmp(EXPR,h->expr)) return true;
+           h = h->next;
+   }
+   return false;
+}
+
 
 void wp_print(){
    WP* h = head;
@@ -107,6 +117,7 @@ WP* new_wp(){
 
 void free_point(WP* wp){
    assert(wp);
+   free(wp->expr);
    if(wp==head){
 	head = head->next;
    }
