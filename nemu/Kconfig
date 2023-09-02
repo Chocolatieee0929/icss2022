@@ -150,7 +150,6 @@ config ITRACE_COND
   default "true"
 
 config WATCHPOINT
-  depends on WATCHPOINT
   string "Set watchpoints and realize their difference"
   default n
 
