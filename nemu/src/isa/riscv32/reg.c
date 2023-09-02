@@ -41,7 +41,8 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   puts("You have not entered the correct registers, which are included in the system as follows:");
   for(int i =0; i < 32; i ++){
 	  printf("%s ",regs[i]);
-	  if(i%8==0) puts("");
+	  if(i%8==7) puts("");
   }
+  *success = false;
   return 0;
 }

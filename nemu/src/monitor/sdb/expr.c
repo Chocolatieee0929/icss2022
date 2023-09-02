@@ -61,7 +61,7 @@ static struct rule {
   {"0x[0-9]+",TK_HEX}, 	// hex_num
   {"[0-9]+", TK_DEX},	// dex_number
 
-  {"\\$\\w+",TK_REG},	// reg_name
+  {"\\$\\$?\\w+",TK_REG},	// reg_name
   //{"[A-Za-z_]\\w*",TK_VAR},    // 指针引用
 };
 
