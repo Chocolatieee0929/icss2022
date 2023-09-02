@@ -176,6 +176,7 @@ static int cmd_w(char *args){
   }
   else if(is_exit_wp(EXPR)){
 	puts("The watchpoint already is exist.");
+	return 0;
   }
   bool result = true ;
   bool hex = false;

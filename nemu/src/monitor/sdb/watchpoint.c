@@ -33,6 +33,14 @@ typedef struct watchpoint {
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
+void init_point(WP* wp){
+   assert(wp);
+   wp->pre_val=0;
+   wp->new_val=0;
+   strcpy(wp->expr,"");
+   printf("%s\n",wp->expr);
+}
+
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
@@ -78,6 +86,7 @@ bool is_wps_diff(){
   if(flag) return true;
   return false;
 }
+
 bool is_exit_wp(char* EXPR){
    WP* h = head;
    if (!h)  return false;
@@ -116,9 +125,10 @@ WP* new_wp(){
    return tmp;
 }
 
+
 void free_point(WP* wp){
    assert(wp);
-   //free(wp->expr);
+   init_point(wp);
    if(wp==head){
 	head = head->next;
    }
