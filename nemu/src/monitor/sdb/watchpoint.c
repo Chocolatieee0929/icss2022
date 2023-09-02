@@ -70,6 +70,7 @@ bool is_wps_diff(){
 		else printf("%-8d%-8s%-16d%-16d\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
 		flag = 1;
 	}
+	tmp = tmp->next;
   }
   return true;
 }
