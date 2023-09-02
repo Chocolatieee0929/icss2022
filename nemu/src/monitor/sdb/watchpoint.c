@@ -38,16 +38,15 @@ void init_point(WP* wp){
    wp->pre_val=0;
    wp->new_val=0;
    strcpy(wp->expr,"");
-   printf("%s\n",wp->expr);
+   // debug
+   //printf("%s\n",wp->expr);
 }
 
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
-    wp_pool[i].pre_val=0;
-    wp_pool[i].new_val=0;
-    //wp_pool[i].expr = malloc(100*sizeof(char*));
+    init_point(&wp_pool[i]);
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
   }
 
@@ -74,7 +73,7 @@ bool is_wps_diff(){
 	assert(result);
 	if(tmp->new_val!=tmp->pre_val){
 		if(!flag){
-		       	puts("Some watchpoints have been changed.\n");
+		       	puts("Some watchpoints have been changed.");
 			printf("%-8s\t%-16s\t%-16s\t%-16s\t\n","Number","EXPR","Pre_val","New_val");
 		}
 		if(hex)   printf("%-8d\t%-16s\t%-16x\t%-16x\t\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
@@ -101,7 +100,7 @@ bool is_exit_wp(char* EXPR){
 void wp_print(){
    WP* h = head;
    if (!h) {
-           puts("No watchpoints.\n");
+           puts("No watchpoints.");
            return;
    }
    printf("%-8s%-8s\n", "Num", "EXPR");
@@ -115,7 +114,7 @@ WP* new_wp(){
    if(free_==NULL){
    	//printf("No empty.\n");
 	//assert(0);
-	puts("Please delete some points that you should not need if you want to add new.\n");
+	puts("Please delete some points that you should not need if you want to add new.");
 	return NULL;
    }
    WP* tmp = free_;
@@ -124,7 +123,6 @@ WP* new_wp(){
    head = tmp;
    return tmp;
 }
-
 
 void free_point(WP* wp){
    assert(wp);
@@ -158,4 +156,3 @@ int free_wp(int num){
      printf("Success to delete this watchpoint.\n");
      return 0;
 }
-
