@@ -72,7 +72,8 @@ bool is_wps_diff(){
 	}
 	tmp = tmp->next;
   }
-  return true;
+  if(flag) return true;
+  return false;
 }
 
 void wp_print(){
