@@ -203,7 +203,8 @@ static int cmd_del(char *args){
   }
   else{
 	 free_wp(num-1);
-	 wp_print();
+	 // debug
+	 // wp_print();
   }
   return 0;
 }

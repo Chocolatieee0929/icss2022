@@ -42,7 +42,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_WATCHPOINT
   if(is_wps_diff()){
   	nemu_state.state = NEMU_STOP;
-	puts("Some watchpoints have been changed.\n");
+	// puts("Some watchpoints have been changed.\n");
   }
 #endif
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
