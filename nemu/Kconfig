@@ -17,9 +17,9 @@ endchoice
 
 config ISA
   string
+  default "riscv32" if ISA_riscv32
   default "x86" if ISA_x86
   default "mips32" if ISA_mips32
-  default "riscv32" if ISA_riscv32
   default "riscv64" if ISA_riscv64
   default "loongarch32r" if ISA_loongarch32r
   default "none"
