@@ -48,3 +48,10 @@ clean-tools: $(clean-tools)
 clean-all: clean distclean clean-tools
 
 .PHONY: run gdb run-env clean-tools clean-all $(clean-tools)
+
+# count the number of lines in *.h or *.c
+countlines:
+	@echo "Counting functions in .c and .h files..."
+	@find . "*.[ch]" | xargs grep -EV "^$$" | wc -l
+
+
