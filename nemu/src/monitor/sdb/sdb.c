@@ -68,10 +68,13 @@ static int add_watchpoint(char* EXPR,word_t re){
   }
   printf("new_wp.\n");
   p->new_val = re;
-  p->expr = EXPR;
+  // point would be changed if you add new EXPR
+  // p->expr = EXPR;
+  strcpy(p->expr,EXPR);
   printf("%-8s%-8s\n","Number","EXPR");
   printf("%-8d%-8s\n", p->NO, p->expr);
-  wp_print();
+  // debug
+  //wp_print();
   printf("Success to add!\n");
   return 0;
 }
