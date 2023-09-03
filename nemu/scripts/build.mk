@@ -9,8 +9,8 @@ endif
 
 WORK_DIR  = $(shell pwd)
 BUILD_DIR = $(WORK_DIR)/build
-PRECOMP_DIR = $(BUILD_DIR)/precomp
 
+VIEW_DIR = $(WORK_DIR)/view
 INC_PATH := $(WORK_DIR)/include $(INC_PATH)
 OBJ_DIR  = $(BUILD_DIR)/obj-$(NAME)$(SO)
 BINARY   = $(BUILD_DIR)/$(NAME)$(SO)
@@ -47,7 +47,7 @@ $(OBJ_DIR)/%.o: %.cc
 
 # Some convenient rules
 
-.PHONY: app clean precomp
+.PHONY: app clean
 
 app: $(BINARY)
 
@@ -57,11 +57,3 @@ $(BINARY): $(OBJS) $(ARCHIVES)
 
 clean:
 	-rm -rf $(BUILD_DIR)
-
-precompile: $(VIEW_DIR)/%.i
-
-$(VIEW_DIR)/%.i: %.c
-	@echo + CC $<
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -E -C -o $@ $<
-	$(call call_fixdep, $(@:.i=.d), $@)
