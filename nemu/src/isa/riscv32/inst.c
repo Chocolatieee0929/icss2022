@@ -34,17 +34,22 @@ enum {
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
+  // dest, src1, src2和imm 分别代表目的操作数, 两个源操作数和立即数
   uint32_t i = s->isa.inst.val;
+  // BITS 用于位抽取
   int rs1 = BITS(i, 19, 15);
   int rs2 = BITS(i, 24, 20);
   *rd     = BITS(i, 11, 7);
   switch (type) {
+    // src1R()和src2R()两个辅助宏,寄存器的读取结果记录到相应的操作数变量中  
+    // immI等辅助宏, 用于从指令中抽取出立即数
     case TYPE_I: src1R();          immI(); break;
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
   }
 }
 
+// 译码(instruction decode, ID)
 static int decode_exec(Decode *s) {
   int rd = 0;
   word_t src1 = 0, src2 = 0, imm = 0;
@@ -62,6 +67,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw     , S, Mw(src1 + imm, 4, src2));
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  // 若前面所有的模式匹配规则都无法成功匹配, 则将该指令视为非法指令
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 
@@ -71,6 +77,7 @@ static int decode_exec(Decode *s) {
 }
 
 int isa_exec_once(Decode *s) {
+  // 取指令,更新s->snpc
   s->isa.inst.val = inst_fetch(&s->snpc, 4);
   return decode_exec(s);
 }

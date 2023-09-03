@@ -13,6 +13,7 @@ BUILD_DIR = $(WORK_DIR)/build
 INC_PATH := $(WORK_DIR)/include $(INC_PATH)
 OBJ_DIR  = $(BUILD_DIR)/obj-$(NAME)$(SO)
 BINARY   = $(BUILD_DIR)/$(NAME)$(SO)
+VIEW_DIR = $(WORK_DIR)/view
 
 # Compilation flags
 ifeq ($(CC),clang)
@@ -39,6 +40,12 @@ $(OBJ_DIR)/%.o: %.cc
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) -c -o $@ $<
 	$(call call_fixdep, $(@:.o=.d), $@)
+
+$(VIEW_DIR)/%.i: %.c
+	@echo + CC $<
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -E -C -o $@ $<
+	$(call call_fixdep, $(@:.i=.d), $@)
 
 # Depencies
 -include $(OBJS:.o=.d)

@@ -17,8 +17,11 @@
 
 #include <memory/vaddr.h>
 
+// 取指令
 static inline uint32_t inst_fetch(vaddr_t *pc, int len) {
+  // vaddr_ifetch()通过paddr_read()来访问物理内存中的内容
   uint32_t inst = vaddr_ifetch(*pc, len);
+  // 更新pc
   (*pc) += len;
   return inst;
 }
