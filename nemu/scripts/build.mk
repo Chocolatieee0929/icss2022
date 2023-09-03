@@ -57,3 +57,14 @@ $(BINARY): $(OBJS) $(ARCHIVES)
 
 clean:
 	-rm -rf $(BUILD_DIR)
+
+# 定义生成预编译文件的目标
+#.PHONY: precompile
+
+# 生成预编译文件的规则
+#precompile: $(VIEW_DIR)
+
+#$(VIEW_DIR)/%.i: %.c
+#	@echo + CC $<
+#	@$(CC) $(CFLAGS) -E -C -o $@ $<
+#	$(call call_fixdep, $(@:.i=.d), $@)
