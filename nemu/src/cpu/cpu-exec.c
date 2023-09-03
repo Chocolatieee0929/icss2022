@@ -49,9 +49,12 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
+  // 让CPU执行当前PC指向的一条指令
   s->pc = pc;
+  // static next PC
   s->snpc = pc;
   isa_exec_once(s);
+  // dynamic next PC, 更新PC
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
@@ -83,6 +86,7 @@ static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
+    // 用于记录客户指令的计数器加1
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;

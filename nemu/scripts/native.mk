@@ -51,7 +51,6 @@ clean-all: clean distclean clean-tools
 
 # count the number of lines in *.h or *.c
 countlines:
-	@echo "Counting functions in .c and .h files..."
-	@find . "*.[ch]" | xargs grep -EV "^$$" | wc -l
-
+	@echo "Counting lines(no space) in .c and .h files..."
+	@find . \( -name "*.c" -o -name "*.h" \) | xargs cat | grep -vE "^$$" |wc -l
 
