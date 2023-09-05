@@ -34,7 +34,7 @@ enum {
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 #define immJ() do { \
        	*imm = (SEXT(BITS(i, 31, 31),1) << 20|SEXT(BITS(i, 19,12),8) | BITS(i,20,20) <<11\
-			| SEXT(BITS(i, 30, 21),10) << 12) << 1;\
+			| SEXT(BITS(i, 30, 21),10) << 12) >> 1;\
 	printf("imm %d",*imm);\
 } while(0)
 
