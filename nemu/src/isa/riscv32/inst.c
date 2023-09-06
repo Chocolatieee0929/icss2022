@@ -59,8 +59,8 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_J: 		   immJ(); break;
     case TYPE_R: src1R(); src2R();         break;
     case TYPE_B: 
-		 src2R();
-		 if(rs1 != 0) src1R(); 
+		 src1R();
+		 if(rs2 != 0) src2R(); 
 		 Log(ANSI_FG_CYAN "src1:%#x  src2:%#x\n" ANSI_NONE, *src1,*src2);
 		 immB(); break;
   }
@@ -93,7 +93,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add    , R, R(rd) = src1 + src2);
   INSTPAT("0100000 ????? ????? 000 ????? 01100 11", sub    , R, R(rd) = src1 - src2);
   INSTPAT("??????? ????? ????? 011 ????? 00100 11", seqz   , I, R(rd) = (src1 == 0));
-  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beqz   , B,s->dnpc = s->pc; if(src1==0) s->dnpc+= imm);
+  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beqz   , B,s->dnpc = s->pc; if(src2==0) s->dnpc+= imm);
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   // 若前面所有的模式匹配规则都无法成功匹配, 则将该指令视为非法指令
