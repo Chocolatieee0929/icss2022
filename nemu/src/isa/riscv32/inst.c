@@ -23,7 +23,7 @@
 #define Mw vaddr_write
 
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_J,
+  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R, TYPE_B,
   TYPE_N, // none
 };
 
@@ -38,6 +38,9 @@ enum {
 			| (BITS(i, 30, 21) << 1)), 21);\
 	Log(ANSI_FG_CYAN "%#x\n" ANSI_NONE, *imm);\
 } while(0)
+#define immB() do {\
+	*imm = SEXT((BITS(i,31, 31) << 12) | (BITS(i, 30, 25) << 5) | (BITS(i,11,8)<<1) | (BITS(1, 7,7) << 11),12);\
+}while(0);
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   // dest, src1, src2和imm 分别代表目的操作数, 两个源操作数和立即数
@@ -53,6 +56,8 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
     case TYPE_J: 		   immJ(); break;
+    case TYPE_R: src1R(); src2R();         break;
+    case TYPE_B: src1R(); src2R(); immB(); break;
   }
 }
 
@@ -79,6 +84,11 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, s->dnpc = s->pc; s->dnpc += imm; R(rd) = s->pc + 4);
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, s->dnpc = (src1 + imm) &~ (word_t)1; R(rd) = s->pc + 4);
+  // add.c
+  INSTPAT("??????? ????? ????? 000 ????? 11001 11", add    , R, R(rd) = src1 + src2);
+  INSTPAT("0100000 ????? ????? 000 ????? 01100 11", sub    , R, R(rd) = src1 - src2);
+  INSTPAT("??????? ????? ????? 011 ????? 00100 11", seqz   , I, R(rd) = (src1 == 0));
+  INSTPAT("??????? ????? ????? 000 ????? 11000 11", beqz   , B,s->dnpc = s->pc; if(src1==0) s->dnpc+= imm);
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   // 若前面所有的模式匹配规则都无法成功匹配, 则将该指令视为非法指令
