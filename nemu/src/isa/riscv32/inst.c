@@ -40,6 +40,7 @@ enum {
 } while(0)
 #define immB() do {\
 	*imm = SEXT((BITS(i,31, 31) << 12) | (BITS(i, 30, 25) << 5) | (BITS(i,11,8)<<1) | (BITS(1, 7,7) << 11),12);\
+	Log(ANSI_FG_CYAN "%#x\n" ANSI_NONE, *imm);\
 }while(0);
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
@@ -60,6 +61,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_B: 
 		 src2R();
 		 if(rs1 != 0) src1R(); 
+		 Log(ANSI_FG_CYAN "src1:%#x  src2:%#x\n" ANSI_NONE, *src1,*src2);
 		 immB(); break;
   }
 }
