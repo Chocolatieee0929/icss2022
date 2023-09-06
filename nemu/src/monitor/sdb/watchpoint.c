@@ -58,7 +58,8 @@ void init_wp_pool() {
 
 bool is_wps_diff(){
   WP* tmp = head;
-  wp_print();
+  // debug
+  // wp_print();
   int flag = 0;
   if(!tmp){
   	return false;
