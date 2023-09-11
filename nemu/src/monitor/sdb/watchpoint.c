@@ -78,7 +78,7 @@ bool is_wps_diff(){
 			printf("%-8s\t%-16s\t%-16s\t%-16s\t\n","Number","EXPR","Pre_val","New_val");
 		}
 		if(hex)   printf("%-8d\t%-16s\t%-16x\t%-16x\t\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
-		else printf("%-8d%-16s%-16d%-16d\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
+		else printf("%-8d\t%-16s\t%-16d\t%-16d\n\n", tmp->NO, tmp->expr, tmp->pre_val, tmp->new_val);
 		flag = 1;
 	}
 	tmp = tmp->next;
@@ -106,7 +106,7 @@ void wp_print(){
    }
    printf("%-8s%-8s\n", "Num", "EXPR");
    while (h) {
-           printf("%-8d%-8s\n", h->NO, h->expr);
+           printf("%-8d%-8s\n", h->NO-1, h->expr);
            h = h->next;
    }
 }
