@@ -41,7 +41,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   // Judge watchpoints' difference
 #ifdef CONFIG_WATCHPOINT
   if(is_wps_diff()){
-	printf("nemu: STOP at pc = %x" ,nemu_state.halt_pc);
+	Log("nemu: STOP at pc = %x\n" ,nemu_state.halt_pc);
   	nemu_state.state = NEMU_STOP;
 	// puts("Some watchpoints have been changed.\n");
   }
