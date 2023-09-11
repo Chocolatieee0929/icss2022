@@ -32,7 +32,7 @@ enum {
 #define src2R() do { *src2 = R(rs2); } while (0)
 #define immI() do { *imm = SEXT(BITS(i, 31, 20), 12); } while(0)
 #define immU() do {\
-       	*imm = SEXT(BITS(i, 31, 12),20); Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
+       	*imm = BITS(i, 31, 12) ; Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
 } while(0)
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
 #define immJ() do { \
