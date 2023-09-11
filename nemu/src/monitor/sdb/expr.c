@@ -110,9 +110,10 @@ static bool make_token(char *e) {
         int substr_len = pmatch.rm_eo;
 	
 	// debug
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        /*
+	 * Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
-
+*/
         position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -366,7 +367,8 @@ word_t eval(int begin,int end, bool *success){
 		     }
 		     else if(val1<0){
 		     	val1 *= -1;
-			printf("val1:%d",val1);
+			//debug
+			// printf("val1:%d",val1);
 			flag = 1;
 		     }
 		     else if(val2<0){
@@ -404,7 +406,8 @@ word_t expr(char *e, bool *success,bool *hex) {
 			       || tokens[i-1].type == TK_OR || tokens[i-1].type == TK_AND
 			       || tokens[i-1].type == TK_EQ || tokens[i-1].type == TK_RV) ) {
 		tokens[i].type = TK_NEG;
-		printf("------\n");
+		// debug
+		// printf("------\n");
 	}
   }
 
