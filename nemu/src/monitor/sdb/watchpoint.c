@@ -106,7 +106,7 @@ void wp_print(){
    }
    printf("%-8s%-8s\n", "Num", "EXPR");
    while (h) {
-           printf("%-8d%-8s\n", h->NO-1, h->expr);
+           printf("%-8d%-8s\n", h->NO+1, h->expr);
            h = h->next;
    }
 }
