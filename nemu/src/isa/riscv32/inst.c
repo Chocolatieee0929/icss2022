@@ -30,7 +30,11 @@ enum {
 // src -> R(rs1)
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
-#define immI() do { *imm = BITS(i, 31, 20); } while(0)
+#define immI() do {\
+       	*imm = BITS(i, 31, 20); \
+	Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
+} while(0)
+
 #define immU() do {\
        	*imm = BITS(i, 31, 12) ; Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
 } while(0)
