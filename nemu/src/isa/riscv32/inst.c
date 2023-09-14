@@ -36,7 +36,7 @@ enum {
 } while(0)
 
 #define immU() do {\
-       	*imm = SEXT(BITS(i, 31, 12),20) << 12 ; Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
+       	*imm = SEXT(BITS(i, 31, 12),20) ; Log(ANSI_FG_CYAN "imm: %#x\n" ANSI_NONE, *imm);\
 } while(0)
 
 #define immS() do { *imm = (SEXT(BITS(i, 31, 25), 7) << 5) | BITS(i, 11, 7); } while(0)
