@@ -5,8 +5,8 @@ html:
 	cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py > Makefile.html
 .PHONY: html
 
-define CONFIG_TARGET_AM
-endef
+CONFIG_TARGET_AM = 1
+
 ## 1. Basic Setup and Checks
 
 ### Default to create a bare-metal kernel image
@@ -53,17 +53,22 @@ DST_DIR   = $(WORK_DIR)/build/$(ARCH)
 $(shell mkdir -p $(DST_DIR))
 
 ### Compilation targets (a binary image or archive)
+### gcc将$ISA-nemu的AM实现源文件编译成目标文件, 然后通过ar将这些目标文件作为一个库, 打包成一个归档文件abstract-machine/am/build/am-$ISA-nemu.a
 IMAGE_REL = build/$(NAME)-$(ARCH)
 IMAGE     = $(abspath $(IMAGE_REL))
 ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
 
 ### Collect the files to be linked: object files (`.o`) and libraries (`.a`)
 OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
-LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
+LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions   $(sort ...) 函数用于去重和排序这些库的名称。这些库将与目标文件一起链接，以构建最终的可执行文件
 LINKAGE   = $(OBJS) \
   $(addsuffix -$(ARCH).a, $(join \
     $(addsuffix /build/, $(addprefix $(AM_HOME)/, $(LIBS))), \
     $(LIBS) ))
+### LINKAGE 包含了所有要链接的文件，包括目标文件和库文件。它由以下部分组成：
+### $(OBJS)：前面定义的目标文件列表。
+### $(addsuffix -$(ARCH).a, ...)：这部分代码用于生成库文件的完整路径。
+### 它将 $(AM_HOME)（AM 仓库的根目录）和 $(LIBS)（库的名称列表）组合在一起，并在每个库名称后面添加 -$(ARCH).a 扩展名。这意味着将使用与目标架构 ($(ARCH)) 相对应的库文件
 
 ## 3. General Compilation Flags
 
