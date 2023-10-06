@@ -23,17 +23,29 @@ static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
 static uint8_t pmem[CONFIG_MSIZE] PG_ALIGN = {};
 #endif
+#ifdef CONFIG_MTRACE
+#define MTRACE_SIZE 32
+static uint8_t mtrace[MTRACE_SIZE][CONFIG_MSIZE];
+static size_t mtrace_index = 0;
+#endif
+
 
 // 将要访问的内存地址映射到pmem中的相应偏移位置
 uint8_t* guest_to_host(paddr_t paddr) { return pmem + paddr - CONFIG_MBASE; }
 paddr_t host_to_guest(uint8_t *haddr) { return haddr - pmem + CONFIG_MBASE; }
 
 static word_t pmem_read(paddr_t addr, int len){
+#ifdef CONFIG_MTRACE
+  mtrace[mtrace_index++] = addr;
+#endif
   word_t ret = host_read(guest_to_host(addr), len);
   return ret;
 }
 
 static void pmem_write(paddr_t addr, int len, word_t data) {
+#ifdef CONFIG_MTRACE
+  mtrace[mtrace_index++] = addr; 
+#endif
   host_write(guest_to_host(addr), len, data);
 }
 
@@ -52,6 +64,12 @@ void init_mem() {
   int i;
   for (i = 0; i < (int) (CONFIG_MSIZE / sizeof(p[0])); i ++) {
     p[i] = rand();
+  }
+#endif
+#ifdef COMFIG_MTRACE
+  mtrace_index = 0;
+  for(int i = 0; i < MTRACE_SIZE; i++){
+	mtrace[i] = {};
   }
 #endif
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);

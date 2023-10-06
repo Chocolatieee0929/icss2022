@@ -124,7 +124,10 @@ endmenu
 
 menu "Testing and Debugging"
 
-
+config MTRACE
+  bool "Enable memory trace"
+  default y
+ 
 config TRACE
   bool "Enable tracer"
   default y
