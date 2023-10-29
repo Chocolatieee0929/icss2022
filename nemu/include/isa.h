@@ -72,7 +72,7 @@ typedef struct{
   size_t func_size;
 }FuncInfo;
 
-FuncInfo Elf_func[Func_num];
+FuncInfo Func[Func_num];
 void init_elf(const char *elf_file);
 
 #endif

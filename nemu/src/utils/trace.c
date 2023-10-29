@@ -54,17 +54,17 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 	for(; index < symnum; index++){
 		Elf32_Sym symentry = elf_symtab[index];
 		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
-		assert(fscanf(fp, "%63s", Elf_func[index].func_name));
-		Elf_func[index].func_start = symentry.st_value;
-		Elf_func[index].func_size  = symentry.st_size;
+		assert(fscanf(fp, "%63s", Func[index].func_name));
+		Func[index].func_start = symentry.st_value;
+		Func[index].func_size  = symentry.st_size;
 		// debug
 		printf("funcname: %s\tfunc_start = 0x%x\t func_offset = 0x%lx\n", 
-				Elf_func[Func_num].func_name,Elf_func[Func_num].func_start,
-				Elf_func[index].func_size);
+				Func[Func_num].func_name, Func[Func_num].func_start,
+				Func[index].func_size);
 		index ++;
 	}
 	rewind(fp);
-	Elf_func[index].func_name[0] = '\0';
+	Func[index].func_name[0] = '\0';
 	return 0;
 }
 
