@@ -12,12 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-#include <elf.h>
-#include <common.h>
 #include <isa.h>
-#include <assert.h>
-#include <string.h>
-#include <stdio.h>
 
 FILE *elf_fp = NULL;
 
