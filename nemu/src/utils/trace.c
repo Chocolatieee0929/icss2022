@@ -41,7 +41,9 @@ static Elf32_Ehdr read_system_tab(FILE *fp){
   char headbuf[EI_NIDENT] = {0};
   rewind(fp);
   assert(fread(headbuf, sizeof(char), EI_NIDENT, fp));
-  assert(headbuf[0] !=0x7f && headbuf[1] != 'E' && headbuf[2] != 'L' && headbuf[3] != 'F');
+  if(headbuf[0] !=0x7f && headbuf[1] != 'E' 
+		  && headbuf[2] != 'L' && headbuf[3] != 'F')
+	assert(0);
   rewind(fp);
   Elf32_Ehdr elfHeader32;
   assert(fread(&elfHeader32, sizeof(Elf32_Ehdr), 1, fp));
