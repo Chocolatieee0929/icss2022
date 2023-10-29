@@ -12,7 +12,28 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-#include <isa.h>
+
+//#ifdef CONFIG_FTRACE
+#include <elf.h>
+#include <assert.h>
+#include <string.h>
+#include <stdio.h>
+#include <common.h>
+
+#define FUNCNAME_SIZE 32 
+#define Func_num 128 
+
+typedef struct{
+	  char func_name[FUNCNAME_SIZE];
+	    paddr_t func_start;
+	      size_t func_size;
+}FuncInfo;
+
+FuncInfo Func[Func_num];
+void init_elf(const char *elf_file);
+
+//#endif
+
 
 FILE *elf_fp = NULL;
 
