@@ -183,6 +183,7 @@ void init_elf(const char *elf_file) {
 
   // read the funcinfo from this EHdr;
   read_elf_func(Ehdr, fp);
-
+  
+  rewind(fp);
   fclose(fp);
 }
