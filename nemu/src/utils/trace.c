@@ -116,7 +116,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		// debug
 		// printf("func_size = 0x%lx\n",Func[index].func_size); 
 		// debug
-		printf("funcname: %s\t\bfunc_start = 0x%x\t\b func_offset = 0x%lx\n", 
+		printf("funcname: %s\t\bfunc_start = 0x%x\t\b func_offset = 0x%lx\b\n", 
 				Func[index].func_name, Func[index].func_start,
 				Func[index].func_size);
 	}
