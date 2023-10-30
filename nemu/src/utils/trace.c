@@ -104,7 +104,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 			symentry.st_name, symentry.st_value, symentry.st_size);
 		size_t offset = elfstrtab.sh_offset + symentry.st_name;
 		fseek(fp, offset, SEEK_SET);
-		assert(fscanf(fp, "%63s", Func[index].func_name));
+		assert(fscanf(fp, "%s", Func[index].func_name));
 
 		Func[index].func_start = symentry.st_value;
 		// debug
