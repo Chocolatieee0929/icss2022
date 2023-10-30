@@ -54,8 +54,9 @@ static Elf32_Ehdr read_system_tab(FILE *fp){
 int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   // 读取章节表的对应是函数的条目
   int symnum = sec_sym.sh_size / sec_sym.sh_entsize;
-  printf("sh_size:%x sh_entsize:%x  ", sec_sym.sh_size, sec_sym.sh_entsize);
-  printf("symnum: %d\n",symnum);
+  // debug
+  // printf("sh_size:%x sh_entsize:%x  ", sec_sym.sh_size, sec_sym.sh_entsize);
+  // printf("symnum: %d\n",symnum);
   if((sec_sym.sh_size % sec_sym.sh_entsize) != 0){ 
 	printf("没有整数个数目\n");
 	return 0;
@@ -68,11 +69,13 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   for(int i = 0; i < symnum; i++){
 	Elf32_Sym symentry ;
 	assert(fread(&symentry, sizeof(Elf32_Sym),1,fp));
-	printf("symname: %x tfunc_start = 0x%x\t func_offset = 0x%x\n", 
-			symentry.st_name, symentry.st_value, symentry.st_size);
+	// debug
+	// printf("symname: %x tfunc_start = 0x%x\t func_offset = 0x%x\n", 
+	// 		symentry.st_name, symentry.st_value, symentry.st_size);
 	if(ELF32_ST_TYPE(symentry.st_info) == STT_FUNC){
 		elf_symtab[funcnum] = symentry;	
-		printf("func:%d",funcnum);
+		// debug
+		// printf("func:%d",funcnum);
 		funcnum++;
 	}
   }
@@ -102,7 +105,11 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
 		assert(fscanf(fp, "%63s", Func[index].func_name));
 		Func[index].func_start = symentry.st_value;
+		// debug
+		printf("func_start = 0x%x\n",Func[index].func_start);
 		Func[index].func_size  = symentry.st_size;
+		// debug
+		printf("func_size = 0x%lx\n",Func[index].func_size); 
 		// debug
 		printf("funcname: %s\tfunc_start = 0x%x\t func_offset = 0x%lx\n", 
 				Func[Func_num].func_name, Func[Func_num].func_start,
