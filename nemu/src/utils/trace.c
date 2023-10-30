@@ -68,7 +68,8 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   for(int i = 0; i < symnum; i++){
 	Elf32_Sym symentry ;
 	assert(fread(&symentry, sizeof(Elf32_Sym),1,fp));
-	printf("symname: %x \n",symentry.st_name);
+	printf("symname: %x tfunc_start = 0x%x\t func_offset = 0x%x\n", 
+			symentry.st_name, symentry.st_value, symentry.st_size);
 	if(ELF32_ST_TYPE(symentry.st_info) == STT_FUNC){
 		elf_symtab[funcnum] = symentry;	
 		printf("func:%d",funcnum);
