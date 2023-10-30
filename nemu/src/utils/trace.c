@@ -102,7 +102,8 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		// debug
 		printf("symname: %x \tfunc_start = 0x%x\t func_offset = 0x%x\n",
 			symentry.st_name, symentry.st_value, symentry.st_size);
-		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
+		size_t offset = elfstrtab.sh_offset + symentry.st_name;
+		fseek(fp, offset, SEEK_SET);
 		assert(fscanf(fp, "%63s", Func[index].func_name));
 
 		Func[index].func_start = symentry.st_value;
@@ -155,7 +156,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   }
   
   // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
-  assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)>0);
+  assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)==0);
   // free(elf_symtab);
   rewind(fp);
   fclose(fp);
