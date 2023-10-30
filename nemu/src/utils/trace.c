@@ -158,8 +158,8 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
   assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)==0);
   // free(elf_symtab);
-  rewind(fp);
-  fclose(fp);
+  // rewind(fp);
+  // fclose(fp);
 }
 
 // 初始化形成elf文件
