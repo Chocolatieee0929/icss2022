@@ -97,7 +97,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		printf("now:%ld ",index);
 		Elf32_Sym symentry = elf_symtab[index];
 		// debug
-		printf("symname: %x tfunc_start = 0x%x\t func_offset = 0x%x\n",
+		printf("symname: %x \tfunc_start = 0x%x\t func_offset = 0x%x\n",
 			symentry.st_name, symentry.st_value, symentry.st_size);
 		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
 		assert(fscanf(fp, "%63s", Func[index].func_name));
