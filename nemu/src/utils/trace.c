@@ -145,6 +145,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 
   // 从Section Header里读出字符串表和符号表
   fseek(fp, shoff, SEEK_SET);
+  int flag = 1;
   for(size_t i = 0; i < shnum; i++){
 	Elf32_Shdr secEnt;
 	assert(fread(&secEnt, sizeof(Elf32_Shdr), 1, fp));
@@ -155,8 +156,9 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 		//printf("symnum:%lx\n",symnum);
 		assert(symnum);
 	}
-	else if(secEnt.sh_type == SHT_STRTAB && i != shoff){
+	else if(secEnt.sh_type == SHT_STRTAB && flag){
 		elf_strtab = secEnt;
+		flag = 0;
 		printf("nameoffset: %x\n",elf_strtab.sh_offset); 
 	}
   }
