@@ -138,7 +138,9 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   
   // 从Section Header里读出 section name strtab
   fseek(fp, shoff + Ehdr.e_shstrndx * Ehdr.e_shentsize, SEEK_SET);
-  assert(fread(&elf_shstrtab, sizeof(Elf32_Shdr), 1, fp)); 
+  assert(fread(&elf_shstrtab, sizeof(Elf32_Shdr), 1, fp));
+  //debug 
+  printf("nameoffset: %x\n",elf_shstrtab.sh_offset);
   rewind(fp);
 
   // 从Section Header里读出字符串表和符号表
