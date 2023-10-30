@@ -54,6 +54,7 @@ static Elf32_Ehdr read_system_tab(FILE *fp){
 int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   // 读取章节表的对应是函数的条目
   int symnum = sec_sym.sh_size / sec_sym.sh_entsize;
+  printf("sh_size:%x sh_entsize:%x", sec_sym.sh_size, sec_sym.sh_entsize);
   if((sec_sym.sh_size % sec_sym.sh_entsize) != 0) return 0;
   Elf32_Sym elf_func[symnum];
   rewind(fp);
