@@ -97,7 +97,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 	// Elf32_Sym * st = elf_symtab;
 	for(; index < symnum; index++){
 		// dedbug
-		printf("now:%ld ",index);
+		// printf("now:%ld ",index);
 		Elf32_Sym symentry = elf_symtab[index];
 		size_t offset = elfstrtab.sh_offset + symentry.st_name;
 		// debug
@@ -116,7 +116,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		// debug
 		// printf("func_size = 0x%lx\n",Func[index].func_size); 
 		// debug
-		printf("funcname: %s\tfunc_start = 0x%x\t func_offset = 0x%lx\n", 
+		printf("funcname: %s\t\bfunc_start = 0x%x\t\b func_offset = 0x%lx\n", 
 				Func[index].func_name, Func[index].func_start,
 				Func[index].func_size);
 	}
@@ -139,8 +139,8 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   // 从Section Header里读出 section name strtab
   fseek(fp, shoff + Ehdr.e_shstrndx * Ehdr.e_shentsize, SEEK_SET);
   assert(fread(&elf_shstrtab, sizeof(Elf32_Shdr), 1, fp));
-  //debug 
-  printf("nameoffset: %x\n",elf_shstrtab.sh_offset);
+  // debug 
+  // printf("nameoffset: %x\n",elf_shstrtab.sh_offset);
   rewind(fp);
 
   // 从Section Header里读出字符串表和符号表
