@@ -52,18 +52,20 @@ static Elf32_Ehdr read_system_tab(FILE *fp){
 }
 
 int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
+  // 读取章节表的对应是函数的条目
   int symnum = sec_sym.sh_size / sec_sym.sh_entsize;
   if((sec_sym.sh_size % sec_sym.sh_entsize) != 0) return 0;
-
   Elf32_Sym elf_func[symnum];
   rewind(fp);
   fseek(fp, sec_sym.sh_offset, SEEK_SET);
+  
   int funcnum = 0;
   for(int i = 0; i < symnum; i++){
 	Elf32_Sym symentry ;
 	assert(fread(&symentry, sizeof(Elf32_Sym),1,fp));
 	if(symentry.st_info == STT_FUNC){
 		elf_func[funcnum++] = symentry;	
+		printf("func:%d",funcnum);
 	}
   }
   if(funcnum != 0) elf_symtab = elf_func;
