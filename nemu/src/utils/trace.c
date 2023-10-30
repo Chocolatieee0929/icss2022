@@ -73,7 +73,12 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
 		printf("func:%d",funcnum);
 	}
   }
-  if(funcnum != 0) elf_symtab = elf_func;
+  if(funcnum != 0){
+	elf_symtab = (Elf32_Sym*)malloc(funcnum * sizeof(Elf32_Sym));
+	for(int i = 0; i < funcnum; i++){
+	  elf_symtab[i] = elf_func[i];	
+	}
+  }
   rewind(fp);
   return funcnum;
 }
@@ -132,6 +137,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   
   // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
   assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)>0);
+  free(elf_symtab);
   rewind(fp);
   fclose(fp);
 }
