@@ -74,7 +74,7 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
 	}
   }
   if(funcnum != 0){
-	elf_symtab = (Elf32_Sym*)malloc(funcnum * sizeof(Elf32_Sym));
+	//elf_symtab = (Elf32_Sym*)malloc(funcnum * sizeof(Elf32_Sym));
 	for(int i = 0; i < funcnum; i++){
 	   elf_symtab[i] = elf_func[i];	
 	}
@@ -111,7 +111,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 
   // read the section headers
   Elf32_Shdr elf_shstrtab;
-  Elf32_Sym *elf_symtab = NULL;
+  Elf32_Sym elf_symtab[50];
   size_t symnum = 0;
   Elf32_Shdr elf_strtab;
   
@@ -128,7 +128,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 	if(secEnt.sh_type == SHT_SYMTAB){
 		symnum = read_elf_symtab(elf_symtab, secEnt, fp);
 		// debug
-		printf("test:%x\n",elf_symtab[0].st_value);
+		//printf("test:%x\n",elf_symtab[0].st_value);
 		printf("symnum:%lx\n",symnum);
 		assert(symnum);
 	}
@@ -139,7 +139,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   
   // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
   assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)>0);
-  free(elf_symtab);
+  // free(elf_symtab);
   rewind(fp);
   fclose(fp);
 }
