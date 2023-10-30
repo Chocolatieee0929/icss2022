@@ -76,7 +76,7 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   if(funcnum != 0){
 	elf_symtab = (Elf32_Sym*)malloc(funcnum * sizeof(Elf32_Sym));
 	for(int i = 0; i < funcnum; i++){
-	  elf_symtab[i] = elf_func[i];	
+	   elf_symtab[i] = elf_func[i];	
 	}
   }
   rewind(fp);
@@ -98,7 +98,6 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		printf("funcname: %s\tfunc_start = 0x%x\t func_offset = 0x%lx\n", 
 				Func[Func_num].func_name, Func[Func_num].func_start,
 				Func[index].func_size);
-		index ++;
 	}
 	rewind(fp);
 	Func[index].func_name[0] = '\0';
