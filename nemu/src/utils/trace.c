@@ -99,13 +99,16 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 		// dedbug
 		printf("now:%ld ",index);
 		Elf32_Sym symentry = elf_symtab[index];
+		size_t offset = elfstrtab.sh_offset + symentry.st_name;
 		// debug
 		printf("symname: %x \tfunc_start = 0x%x\t func_offset = 0x%x\n",
 			symentry.st_name, symentry.st_value, symentry.st_size);
-		size_t offset = elfstrtab.sh_offset + symentry.st_name;
+		printf("offset: %lx\n",offset);
+		
 		fseek(fp, offset, SEEK_SET);
 		assert(fscanf(fp, "%s", Func[index].func_name) > 0);
-
+		// debug
+		printf("funcname: %s\n",Func[index].func_name);
 		Func[index].func_start = symentry.st_value;
 		// debug
 		// printf("func_start = 0x%x\n",Func[index].func_start);
