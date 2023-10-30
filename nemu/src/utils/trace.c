@@ -25,8 +25,8 @@
 
 typedef struct{
 	  char func_name[FUNCNAME_SIZE];
-	    paddr_t func_start;
-	      size_t func_size;
+	  Elf32_Addr func_start;
+	  size_t func_size;
 }FuncInfo;
 
 FuncInfo Func[Func_num];
