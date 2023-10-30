@@ -60,7 +60,7 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
 	printf("没有整数个数目\n");
 	return 0;
   }
-  Elf32_Sym elf_func[symnum];
+  // Elf32_Sym elf_func[symnum];
   rewind(fp);
   fseek(fp, sec_sym.sh_offset, SEEK_SET);
   
@@ -68,17 +68,21 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
   for(int i = 0; i < symnum; i++){
 	Elf32_Sym symentry ;
 	assert(fread(&symentry, sizeof(Elf32_Sym),1,fp));
+	printf("symname: %x \n",symentry.st_name);
 	if(ELF32_ST_TYPE(symentry.st_info) == STT_FUNC){
-		elf_func[funcnum++] = symentry;	
+		elf_symtab[funcnum] = symentry;	
 		printf("func:%d",funcnum);
+		funcnum++;
 	}
   }
+  /*
   if(funcnum != 0){
 	//elf_symtab = (Elf32_Sym*)malloc(funcnum * sizeof(Elf32_Sym));
 	for(int i = 0; i < funcnum; i++){
 	   elf_symtab[i] = elf_func[i];	
 	}
   }
+  */
   rewind(fp);
   return funcnum;
 }
@@ -88,7 +92,8 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 	size_t index = 0;
 	// Elf32_Sym * st = elf_symtab;
 	for(; index < symnum; index++){
-		printf("now:%ld",index);
+		// dedbug
+		printf("now:%ld ",index);
 		Elf32_Sym symentry = elf_symtab[index];
 		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
 		assert(fscanf(fp, "%63s", Func[index].func_name));
