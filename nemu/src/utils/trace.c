@@ -86,10 +86,9 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
 // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
 int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FILE * fp){
 	size_t index = 0;
-	Elf32_Sym * st = elf_symtab;
+	// Elf32_Sym * st = elf_symtab;
 	for(; index < symnum; index++){
-		Elf32_Sym symentry = *st;
-		st++;
+		Elf32_Sym symentry = elf_symtab[index];
 		fseek(fp, elfstrtab.sh_offset + symentry.st_name * sizeof(char), SEEK_SET);
 		assert(fscanf(fp, "%63s", Func[index].func_name));
 		Func[index].func_start = symentry.st_value;
