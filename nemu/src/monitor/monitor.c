@@ -17,7 +17,6 @@
 #include <memory/paddr.h>
 
 #ifdef CONFIG_FTRACE 
-#include <trace.h>
 void init_elf(const char *elf_file);
 #endif
 

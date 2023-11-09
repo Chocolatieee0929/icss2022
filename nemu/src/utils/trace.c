@@ -12,8 +12,6 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-/*
-#ifdef CONFIG_FTRACE
 #include <elf.h>
 #include <assert.h>
 #include <string.h>
@@ -31,12 +29,6 @@ typedef struct{
 
 FuncInfo Func[Func_num];
 void init_elf(const char *elf_file);
-
-#endif
-*/
-
-#ifdef CONFIG_FTRACE
-#include <trace.h>
 
 FILE *elf_fp = NULL;
 
@@ -199,4 +191,4 @@ void init_elf(const char *elf_file) {
   rewind(fp);
   fclose(fp);
 }
-#endif
+
