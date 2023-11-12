@@ -29,9 +29,67 @@ typedef struct{
 
 FuncInfo Func[Func_num];
 void init_elf(const char *elf_file);
-
 FILE *elf_fp = NULL;
 
+//=================================== func_trace ==========================================//
+typedef struct func_call{
+  FuncInfo to_func;
+  struct func_call *next; 
+}fentry;
+
+int fentry_num = 0;
+fentry *fstart = NULL;
+fentry *fend = NULL; 
+
+int addrtofunc(paddr_t addr){
+  for(int i = 0;Func[i].func_name[0]!=0;i++){
+	size_t start = Func[i].func_start;
+	size_t size = Func[i].func_size;
+	if(addr >= start && addr < start + size)
+	  return i;
+  }
+  return -1;
+}
+
+void func_trace(paddr_t pc,paddr_t target){
+  // 找到from地址
+  // int from = addrtofunc(pc);
+  printf("0x%x:  ",pc); 
+  // 函数回退	
+  if(target==0){
+	if(!fentry_num||fstart->next){
+	  printf("没有调用过函数。\n");
+	  return;
+	}
+	// 1.从开头退出函数，并打印
+	fentry* temp = fstart->next;
+	FuncInfo func = temp->to_func;
+	fstart->next = temp->next;
+	for(int i=0;i<fentry_num;i++) printf(" ");
+	printf("call [%s]\n",func.func_name);
+	// 2.函数条目数目减少
+	free(temp);
+	fentry_num--;
+	return;
+  }
+  // 函数调用
+  // 1.找到目标函数
+  int to = addrtofunc(target);
+  printf("0x%x:   ",pc);
+  // 2.trm_init和main函数
+  if(strcmp(Func[to].func_name,"_trm_init")!=0 && strcmp(Func[to].func_name,"main")!=0){
+	for(int i=0;i<fentry_num;i++) printf(" "); 
+	fentry *temp = malloc(sizeof(fentry));
+ 	temp->to_func = Func[to];
+	temp->next = NULL;
+  	fend->next=temp; fend = temp; 
+	fentry_num++;
+  }
+  printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);  
+  return;
+}
+
+//=============================== init func_table =========================================//
 static Elf32_Ehdr read_system_tab(FILE *fp){
   char headbuf[EI_NIDENT] = {0};
   rewind(fp);
@@ -168,12 +226,18 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 
 // 初始化形成elf文件
 void init_elf(const char *elf_file) {
+  fentry_num = 0;
   FILE* fp = fopen(elf_file, "rb");
   if(fp == NULL){
   	log_write("Elf_file isn't exit.\n");
 	printf("Elf_file isn't exit.\n");
 	return ;
   }
+  // initialize the func_entry
+  fstart = malloc(sizeof(fentry));
+  fstart->next = NULL;
+  fend = fstart;
+
   // the size of elf_file
   fseek(fp, 0, SEEK_END);  // 将读写位置指向文件尾后，再增加 offset(0) 个偏移量为新的读写位置
   long flen = ftell(fp);   // 文件位置指针当前位置相对于文件首的偏移字节数
