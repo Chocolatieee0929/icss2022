@@ -141,7 +141,7 @@ config TRACE_END
 config ITRACE
   depends on TRACE && TARGET_NATIVE_ELF && ENGINE_INTERPRETER
   bool "Enable instruction tracer"
-  default y
+  default y 
 
 config ITRACE_COND
   depends on ITRACE
@@ -151,12 +151,12 @@ config ITRACE_COND
 config MTRACE
   depends on TRACE && TARGET_NATIVE_ELF && ENGINE_INTERPRETER
   bool "Enable memory access tracer"
-  default y
+  default n
 
 config MTRACE_COND
   depends on MTRACE
   string "Only trace memory access when the condition is true"
-  default "true"
+  default "false"
 
 config FTRACE
   depends on TRACE && TARGET_NATIVE_ELF && ENGINE_INTERPRETER
