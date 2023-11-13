@@ -75,6 +75,8 @@ void func_trace(paddr_t pc,paddr_t target){
   // 函数调用
   // 1.找到目标函数
   int to = addrtofunc(target);
+  //debug
+  printf("to: %d ",to);
   // 2.trm_init和main函数
   if(strcmp(Func[to].func_name,"_trm_init")!=0 && strcmp(Func[to].func_name,"main")!=0){
 	for(int i=0;i<fentry_num;i++) printf(" "); 
