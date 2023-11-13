@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <common.h>
+#include <cpu/decode.h>
 
 #define FUNCNAME_SIZE 32 
 #define Func_num 128 
@@ -51,12 +52,16 @@ int addrtofunc(paddr_t addr){
   return -1;
 }
 
-void func_trace(paddr_t pc,paddr_t target){
+void func_trace(Decode *s,paddr_t target){
   // 找到from地址
   // int from = addrtofunc(pc);
+  paddr_t pc = s->pc;
+  uint32_t i = s->isa.inst.val;
+  int rd  = BITS(i, 11, 7);
+  int rs1 = BITS(i, 19, 15);
   printf("0x%x:  ",pc); 
   // 函数回退	
-  if(target==0){
+  if(rd==0 && rs1==1){
 	if(fentry_num==0||fstart->next){
 	  printf("没有调用过函数。\n");
 	  return;
