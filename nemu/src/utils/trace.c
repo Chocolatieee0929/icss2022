@@ -62,7 +62,7 @@ void func_trace(Decode *s,paddr_t target){
   printf("0x%x:  ",pc); 
   // 函数回退	
   if(rd==0 && rs1==1){
-	if(fentry_num==0||fstart->next){
+	if(fentry_num==0){
 	  printf("没有调用过函数。\n");
 	  return;
 	}
