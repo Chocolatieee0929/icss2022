@@ -71,7 +71,7 @@ void func_trace(Decode *s,paddr_t target){
 	FuncInfo func = temp->to_func;
 	fstart->next = temp->next;
 	for(int i=0;i<fentry_num;i++) printf(" ");
-	printf("call [%s]\n",func.func_name);
+	printf("ret [%s]\n",func.func_name);
 	// 2.函数条目数目减少
 	free(temp);
 	fentry_num--;
