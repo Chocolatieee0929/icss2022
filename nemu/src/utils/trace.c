@@ -81,7 +81,7 @@ void func_trace(Decode *s,paddr_t target){
   // 1.找到目标函数
   int to = addrtofunc(target);
   //debug
-  printf("to: %d ",to);
+  // printf("to: %d ",to);
   // 2.trm_init和main函数
   if(strcmp(Func[to].func_name,"_trm_init")!=0 && strcmp(Func[to].func_name,"main")!=0){
 	for(int i=0;i<fentry_num;i++) printf(" "); 
