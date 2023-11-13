@@ -67,7 +67,8 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_B: 
 		 src1R();
 		 if(rs2 != 0) src2R(); 
-		 Log(ANSI_FG_CYAN "src1:%#x  src2:%#x\n" ANSI_NONE, *src1,*src2);
+		 // debug
+		 //Log(ANSI_FG_CYAN "src1:%#x  src2:%#x\n" ANSI_NONE, *src1,*src2);
 		 immB(); break;
   }
 }
