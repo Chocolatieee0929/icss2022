@@ -57,7 +57,7 @@ void func_trace(paddr_t pc,paddr_t target){
   printf("0x%x:  ",pc); 
   // 函数回退	
   if(target==0){
-	if(!fentry_num||fstart->next){
+	if(fentry_num==0||fstart->next){
 	  printf("没有调用过函数。\n");
 	  return;
 	}
@@ -75,7 +75,6 @@ void func_trace(paddr_t pc,paddr_t target){
   // 函数调用
   // 1.找到目标函数
   int to = addrtofunc(target);
-  printf("0x%x:   ",pc);
   // 2.trm_init和main函数
   if(strcmp(Func[to].func_name,"_trm_init")!=0 && strcmp(Func[to].func_name,"main")!=0){
 	for(int i=0;i<fentry_num;i++) printf(" "); 
