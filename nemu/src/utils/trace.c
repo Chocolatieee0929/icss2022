@@ -56,6 +56,7 @@ void func_printf(){
     printf("0x%x:  ",fstart->addr);
     for(int i=0;i<fentry_num;i++) printf(" ");
     int to = fstart->func_index;
+    printf("to:%d\n",to);
     if(fstart->func_type == func_c){
       count++;
       printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
