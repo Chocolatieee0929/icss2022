@@ -58,7 +58,7 @@ void func_printf(){
     printf("0x%x:  ", temp->addr);
     for(int i=0;i<count;i++) printf(" ");
     int to = temp->func_index;
-    printf("to:%d\n",to);
+    // printf("to:%d\n",to);
     if(temp->func_type == func_c){
       count++;
       printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
