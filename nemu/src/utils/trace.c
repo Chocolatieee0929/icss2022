@@ -48,12 +48,13 @@ fentry *fend = NULL;
 
 void func_printf(){
   int count=1;
+  fentry *temp = NULL;
   if(fentry_num==0||fstart==NULL){
 	  printf("没有调用过函数。\n");
 	  return;
   }
   while(fstart->next!=NULL){
-    fentry *temp = fstart->next;
+    temp = fstart->next;
     printf("0x%x:  ", temp->addr);
     for(int i=0;i<count;i++) printf(" ");
     int to = temp->func_index;
@@ -69,7 +70,9 @@ void func_printf(){
     fstart->next = temp->next;
     free(temp);
   }
+  temp = fstart;
   fstart=NULL;
+  free(temp);
   fend=NULL;
   fentry_num=0;
 }
