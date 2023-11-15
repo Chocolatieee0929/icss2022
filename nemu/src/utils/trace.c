@@ -21,6 +21,8 @@
 
 #define FUNCNAME_SIZE 32 
 #define Func_num 128 
+#define func_c 1
+#define func_r 0
 
 typedef struct{
 	  char func_name[FUNCNAME_SIZE];
@@ -34,13 +36,42 @@ FILE *elf_fp = NULL;
 
 //=================================== func_trace ==========================================//
 typedef struct func_call{
-  FuncInfo to_func;
+  int func_index;
+  int func_type;
+  paddr_t addr;
   struct func_call *next; 
 }fentry;
 
 int fentry_num = 0;
 fentry *fstart = NULL;
 fentry *fend = NULL; 
+
+void func_printf(){
+  int count=1;
+  if(fentry_num==0||fstart==NULL){
+	  printf("没有调用过函数。\n");
+	  return;
+  }
+  while(fstart!=fend){
+    printf("0x%x:  ",fstart->addr);
+    for(int i=0;i<fentry_num;i++) printf(" ");
+    int to = fstart->func_index;
+    if(fstart->func_type == func_c){
+      count++;
+      printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+    }
+    else{
+      count--;
+      printf("ret [%s]\n",Func[to].func_name);
+    }
+    fentry *temp = fstart;
+    fstart = fstart->next;
+    free(temp);
+  }
+  fstart=NULL;
+  fend=NULL;
+  fentry_num=0;
+}
 
 int addrtofunc(paddr_t addr){
   for(int i = 0;Func[i].func_name[0]!=0;i++){
@@ -59,39 +90,29 @@ void func_trace(Decode *s,paddr_t target){
   uint32_t i = s->isa.inst.val;
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
-  printf("0x%x:  ",pc); 
-  // 函数回退	
-  if(rd==0 && rs1==1){
-	if(fentry_num==0){
-	  printf("没有调用过函数。\n");
-	  return;
-	}
-	// 1.从开头退出函数，并打印
-	fentry* temp = fstart->next;
-	FuncInfo func = temp->to_func;
-	fstart->next = temp->next;
-	for(int i=0;i<fentry_num;i++) printf(" ");
-	printf("ret [%s]\n",func.func_name);
-	// 2.函数条目数目减少
-	free(temp);
-	fentry_num--;
-	return;
-  }
-  // 函数调用
+  // printf("0x%x:  ",pc); 
+
   // 1.找到目标函数
   int to = addrtofunc(target);
   //debug
   // printf("to: %d ",to);
   // 2.trm_init和main函数
-  if(strcmp(Func[to].func_name,"_trm_init")!=0 && strcmp(Func[to].func_name,"main")!=0){
-	for(int i=0;i<fentry_num;i++) printf(" "); 
-	fentry *temp = malloc(sizeof(fentry));
- 	temp->to_func = Func[to];
-	temp->next = NULL;
-  	fend->next=temp; fend = temp; 
-	fentry_num++;
+	// for(int i=0;i<fentry_num;i++) printf(" "); 
+  fentry *temp = malloc(sizeof(fentry));
+  // temp->to_func = Func[to];
+  temp->addr = pc;
+  temp->func_index = to;
+  if(rd==0 && rs1==1){
+	if(fentry_num==0){
+	  printf("没有调用过函数。\n");
+	  return;
+	}
+	temp->func_type = func_r;
   }
-  printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);  
+  else temp->func_type = func_c;
+  temp->next = NULL;
+  fend->next=temp; fend = temp; 
+  fentry_num++;
   return;
 }
 
