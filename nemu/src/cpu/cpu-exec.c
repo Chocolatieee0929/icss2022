@@ -16,7 +16,9 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
+#include <cpu/cpu.h>
 #include <locale.h>
+#include <common.h>
 #include <monitor/watchpoint.h>
 
 /* The assembly code of instructions executed is only output to the screen
@@ -24,6 +26,10 @@
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
+#ifdef CONFIG_FTRACE
+void func_printf();
+#endif
+
 #define MAX_INST_TO_PRINT 10
 #define IRING_BUF_SIZE 16 // 环形缓冲区大小
 #define IRING_BUF_PC_START_INDEX 3 // 存放指令信息的开始位置
@@ -160,6 +166,7 @@ void cpu_exec(uint64_t n) {
       if(nemu_state.state == NEMU_END && nemu_state.halt_ret != 0){
 	print_iring_buf();
       }
+      IFDEF(CONFIG_FTRACE, func_printf());
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
