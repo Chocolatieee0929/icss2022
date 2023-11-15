@@ -52,12 +52,13 @@ void func_printf(){
 	  printf("没有调用过函数。\n");
 	  return;
   }
-  while(fstart!=fend){
-    printf("0x%x:  ",fstart->addr);
-    for(int i=0;i<fentry_num;i++) printf(" ");
-    int to = fstart->func_index;
+  while(fstart->next!=NULL){
+    fentry *temp = fstart->next;
+    printf("0x%x:  ", temp->addr);
+    for(int i=0;i<count;i++) printf(" ");
+    int to = temp->func_index;
     printf("to:%d\n",to);
-    if(fstart->func_type == func_c){
+    if(temp->func_type == func_c){
       count++;
       printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
     }
@@ -65,8 +66,7 @@ void func_printf(){
       count--;
       printf("ret [%s]\n",Func[to].func_name);
     }
-    fentry *temp = fstart;
-    fstart = fstart->next;
+    fstart->next = temp->next;
     free(temp);
   }
   fstart=NULL;
@@ -91,12 +91,12 @@ void func_trace(Decode *s,paddr_t target){
   uint32_t i = s->isa.inst.val;
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
-  // printf("0x%x:  ",pc); 
+  printf("0x%x:  \n",pc); 
 
   // 1.找到目标函数
   int to = addrtofunc(target);
   //debug
-  // printf("to: %d ",to);
+   printf("to: %d ",to);
   // 2.trm_init和main函数
 	// for(int i=0;i<fentry_num;i++) printf(" "); 
   fentry *temp = malloc(sizeof(fentry));
