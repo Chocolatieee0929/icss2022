@@ -18,7 +18,7 @@
 #include <cpu/difftest.h>
 #include <cpu/cpu.h>
 #include <locale.h>
-#include <common.h>
+//#include <common.h>
 #include <monitor/watchpoint.h>
 
 /* The assembly code of instructions executed is only output to the screen

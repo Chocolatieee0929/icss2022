@@ -55,7 +55,7 @@ void func_printf(){
   }
   while(fstart->next!=NULL){
     temp = fstart->next;
-    printf("0x%x:  ", temp->addr);
+    printf("0x%x: ", temp->addr);
     for(int i=0;i<count;i++) printf(" ");
     int to = temp->func_index;
     // printf("to:%d\n",to);
