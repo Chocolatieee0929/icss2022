@@ -127,7 +127,7 @@ void print_iring_buf(){
 	if((iringbuf[i][IRING_BUF_PC_START_INDEX] == '\0')) break;
 	if(((i+1) % IRING_BUF_SIZE) == iringbuf_head){
 	   // snprintf 函数，它会限制复制的字符数，并且可以防止缓冲区溢出
-	   snprintf(iringbuf[i], IRING_BUF_PC_START_INDEX, "%s", point);
+	   snprintf(iringbuf[i], IRING_BUF_PC_START_INDEX+1, "%s", point);
 	   //strncpy(iringbuf[i], point, IRING_BUF_PC_START_INDEX);
 	}
 #ifdef CONFIG_ITRACE_COND
