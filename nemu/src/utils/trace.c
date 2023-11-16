@@ -94,7 +94,8 @@ void func_trace(Decode *s,paddr_t target){
   uint32_t i = s->isa.inst.val;
   int rd  = BITS(i, 11, 7);
   int rs1 = BITS(i, 19, 15);
-  printf("0x%x:  \n",pc); 
+  //debug
+  // printf("0x%x:  \n",pc); 
 
   // 1.找到目标函数
   int to = addrtofunc(target);
@@ -102,7 +103,7 @@ void func_trace(Decode *s,paddr_t target){
   // printf("to: %d ",to);
   // 2.trm_init和main函数
 	// for(int i=0;i<fentry_num;i++) printf(" "); 
-  printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+  //printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
   fentry *temp = malloc(sizeof(fentry));
   // temp->to_func = Func[to];
   temp->addr = pc;
