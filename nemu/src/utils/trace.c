@@ -61,7 +61,7 @@ void func_printf(){
     // printf("to:%d\n",to);
     if(temp->func_type == func_c){
       count++;
-      printf("call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+      printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
     }
     else{
       count--;
