@@ -17,7 +17,7 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
-//#include <common.h>
+#include <common.h>
 #include <monitor/watchpoint.h>
 
 /* The assembly code of instructions executed is only output to the screen
@@ -126,7 +126,9 @@ void print_iring_buf(){
   for(int i = 0; i < IRING_BUF_SIZE; ++i){
 	if((iringbuf[i][IRING_BUF_PC_START_INDEX] == '\0')) break;
 	if(((i+1) % IRING_BUF_SIZE) == iringbuf_head){
-	   strncpy(iringbuf[i], point, IRING_BUF_PC_START_INDEX);
+	   // snprintf 函数，它会限制复制的字符数，并且可以防止缓冲区溢出
+	   snprintf(iringbuf[i], IRING_BUF_PC_START_INDEX, "%s", point);
+	   //strncpy(iringbuf[i], point, IRING_BUF_PC_START_INDEX);
 	}
 #ifdef CONFIG_ITRACE_COND
 	if(ITRACE_COND) { log_write("%s\n", iringbuf[i]); }
