@@ -131,7 +131,7 @@ void print_iring_buf(){
 	   char temp[len];
 	   //snprintf(iringbuf[i], IRING_BUF_PC_START_INDEX+1, "%s", point);
 	   strncpy(temp, point, IRING_BUF_PC_START_INDEX+1);
-	   strncat(temp, iringbuf[i] + 3, sizeof(temp) - strlen(temp) - 1);
+	   strncat(temp, iringbuf[i] + 3, sizeof(temp) - strlen(temp));
 	   snprintf(iringbuf[i], len+1, "%s", temp);
 	}
 #ifdef CONFIG_ITRACE_COND
