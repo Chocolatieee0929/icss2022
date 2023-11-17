@@ -19,7 +19,7 @@
 #include <locale.h>
 #include <common.h>
 #include <monitor/watchpoint.h>
-
+#include <string.h>
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -127,8 +127,12 @@ void print_iring_buf(){
 	if((iringbuf[i][IRING_BUF_PC_START_INDEX] == '\0')) break;
 	if(((i+1) % IRING_BUF_SIZE) == iringbuf_head){
 	   // snprintf 函数，它会限制复制的字符数，并且可以防止缓冲区溢出
+	   int len = strlen(iringbuf[i]);
+	   char temp[len];
 	   //snprintf(iringbuf[i], IRING_BUF_PC_START_INDEX+1, "%s", point);
-	   strncpy(iringbuf[i], point, IRING_BUF_PC_START_INDEX+1);
+	   strncpy(temp, point, IRING_BUF_PC_START_INDEX+1);
+	   strncat(temp, iringbuf[i] + 3, sizeof(temp) - strlen(temp) - 1);
+	   snprintf(iringbuf[i], len+1, "%s", temp);
 	}
 #ifdef CONFIG_ITRACE_COND
 	if(ITRACE_COND) { log_write("%s\n", iringbuf[i]); }
