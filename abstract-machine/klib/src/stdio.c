@@ -49,6 +49,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
       }
       else{
 	fmt ++;
+	/*
+	int precision = -1;
+	if(*fmt == '.'){
+	  fmt ++;
+	  // set precision
+	  if(*fmt >= '0' && *fmt <= '9'){
+	  	precision = skip_atoi(&fmt);
+	  }
+	  else precision = 0;
+	  fmt ++;
+	}
+	*/
 	switch(*fmt){
 	  case 's':
 		char *s = va_arg(ap, char *);
@@ -60,6 +72,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		len += strlen(s);
 		buff += strlen(s); 
 		break;
+	  case 'c':
+		char c = va_arg(ap, int);
+		*buff = c;
+		len ++;
+		buff ++;
+		break;
 	  case 'd':
 		int d = va_arg(ap, int);
 		int dlen = numlen(d); 
@@ -69,12 +87,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		//putch(*buff);
 		buff += dlen;
 		break;
-	  case 'c':
-		char c = va_arg(ap, int);
-		*buff = c;
-		len ++;
-		buff ++;
+	  case 'x':
+
 		break;
+	  
 	} // switch
       } // else
   } // for
