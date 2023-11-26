@@ -69,7 +69,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		//putch('\n');
 		strcpy(buff, s);
 		assert(strcmp(buff,"HELLO!")==0);
-		putch('S');
+		//putch('S');
 		//putch('\n');
 		//printf(buff);
 		len += strlen(s);
