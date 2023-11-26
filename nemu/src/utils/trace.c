@@ -103,7 +103,8 @@ void func_trace(Decode *s,paddr_t target){
   // printf("to: %d ",to);
   // 2.trm_init和main函数
 	// for(int i=0;i<fentry_num;i++) printf(" "); 
-  //printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+  // timely printf
+  printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
   fentry *temp = malloc(sizeof(fentry));
   // temp->to_func = Func[to];
   temp->addr = pc;
