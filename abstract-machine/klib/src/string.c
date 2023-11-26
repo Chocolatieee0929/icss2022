@@ -20,8 +20,8 @@ char *strcpy(char *dst, const char *src) {
   size_t len = strlen(src);
   for(size_t i = 0; i < len;i++) dst[i]=src[i];
   dst[len] = '\0';
-  // putch('Y');
-  // putch('\n');
+  putch('Y');
+  putch('\n');
   return dst;
 }
 
