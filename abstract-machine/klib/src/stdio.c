@@ -65,6 +65,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 	  case 's':
 		char *s = va_arg(ap, char *);
 		if(s==NULL) s="<NULL>";
+		putch('S');
+		putch('\n');
+
 		strcpy(buff, s);
 		assert(strcmp(buff,"HELLO!")==0);
 		putch('S');
