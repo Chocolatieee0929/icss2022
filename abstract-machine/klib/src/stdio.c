@@ -66,9 +66,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		char *s = va_arg(ap, char *);
 		if(s==NULL) s="<NULL>";
 		strcpy(buff, s);
-		// putch(*buff);
-		// putch('\n');
-		printf(buff);
+		assert(strcmp(buff,"HELLO!")==0);
+		putch('S');
+		putch('\n');
+		//printf(buff);
 		len += strlen(s);
 		buff += strlen(s); 
 		break;
