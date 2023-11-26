@@ -16,13 +16,15 @@ size_t strlen(const char *s) {
 
 char *strcpy(char *dst, const char *src) {
   // panic("Not implemented");
-  if(src==NULL) return NULL;
-  size_t len = strlen(src);
-  for(size_t i = 0; i < len;i++) dst[i]=src[i];
-  dst[len] = '\0';
+  if(src==NULL||dst==NULL) return dst;
+  char *temp = dst;
+  do{
+	*dst = *src;
+	dst++;src++;
+  }while(*src != '\0');
   putch('Y');
   putch('\n');
-  return dst;
+  return temp;
 }
 
 char *strncpy(char *dst, const char *src, size_t n) {
