@@ -45,6 +45,8 @@ void device_update();
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  strcpy(iringbuf[iringbuf_head] + IRING_BUF_PC_START_INDEX, _this->logbuf);
+  iringbuf_head = (iringbuf_head + 1)% IRING_BUF_SIZE;
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   // Judge watchpoints' difference
@@ -81,8 +83,8 @@ static void exec_once(Decode *s, vaddr_t pc) {
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
   p += space_len;
-  strcpy(iringbuf[iringbuf_head] + IRING_BUF_PC_START_INDEX, s->logbuf);
-  iringbuf_head = (iringbuf_head + 1)% IRING_BUF_SIZE;
+  //strcpy(iringbuf[iringbuf_head] + IRING_BUF_PC_START_INDEX, s->logbuf);
+  //iringbuf_head = (iringbuf_head + 1)% IRING_BUF_SIZE;
 
 #ifndef CONFIG_ISA_loongarch32r
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
