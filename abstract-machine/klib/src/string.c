@@ -22,8 +22,8 @@ char *strcpy(char *dst, const char *src) {
 	*dst = *src;
 	dst++;src++;
   }while(*src != '\0');
-  putch('Y');
-  putch('\n');
+  //putch('Y');
+  //putch('\n');
   return temp;
 }
 
