@@ -16,15 +16,13 @@ size_t strlen(const char *s) {
 
 char *strcpy(char *dst, const char *src) {
   // panic("Not implemented");
-  if(src==NULL||dst==NULL) return dst;
-  char *temp = dst;
-  do{
-	*dst = *src;
-	dst++;src++;
-  }while(*src != '\0');
-  //putch('Y');
-  //putch('\n');
-  return temp;
+  if(src==NULL) return NULL;
+  size_t len = strlen(src);
+  for(size_t i = 0; i < len;i++) dst[i]=src[i];
+  dst[len] = '\0';
+  // putch('Y');
+  // putch('\n');
+  return dst;
 }
 
 char *strncpy(char *dst, const char *src, size_t n) {
@@ -95,7 +93,8 @@ void *memset(void *s, int c, size_t n) {
   if(s == NULL) return s;
   unsigned char* src = s;
   for(size_t i = 0; i < n; i++){
-  	src[i] = c;
+  	*src = c;
+	src++;
   }
   return s;
 }
