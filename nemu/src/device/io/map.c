@@ -52,6 +52,7 @@ void init_map() {
   p_space = io_space;
 }
 
+// map_read()和map_write()用于将地址addr映射到map所指示的目标空间, 并进行访问. 
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
