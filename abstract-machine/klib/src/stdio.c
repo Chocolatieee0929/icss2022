@@ -14,6 +14,9 @@ int printf(const char *fmt, ...) {
   va_start(args,fmt);
   n = vsprintf(s,fmt,args);
   va_end(args);
+  for(int i=0; i<128 && s[i]!='\0'; i++){
+	putch(s[i]);
+  }
   return n;
 }
 
