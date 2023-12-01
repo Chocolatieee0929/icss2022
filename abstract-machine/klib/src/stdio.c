@@ -71,7 +71,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 		//putch('S');
 		//putch('\n');
 		strcpy(buff, s);
-		assert(strcmp(buff,"HELLO!")==0);
+		//assert(strcmp(buff,"HELLO!")==0);
 		//putch('S');
 		//putch('\n');
 		//printf(buff);
