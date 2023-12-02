@@ -58,17 +58,15 @@ uint32_t __attribute__((weak)) __div64_32(uint64_t *n, uint32_t base)
 //进制之间的相应转换
 # define do_div(n,base) ({						\
 	unsigned int __base = (base);					\
-	unsigned int __rem;	\
-	//这一句的作用是为了消去警告，因为定义了n变量而没有使用到它，会报警
-	(void)(((typeof((n)) *)0) == ((unsigned long long *)0));	\ 
-	
-	if (((n) >> 32) == 0) {						\//32位4字节
-		__rem = (unsigned int)(n) % __base;			\//对应的base进制位
+	unsigned int __rem;						\
+	(void)(((typeof((n)) *)0) == ((unsigned long long *)0));	\
+	if (((n) >> 32) == 0) {						\
+		__rem = (unsigned int)(n) % __base;			\
 		(n) = (unsigned int)(n) / __base;			\
 	} else								\
-		__rem = __div64_32(&(n), __base);			\//64转32
+		__rem = __div64_32(&(n), __base);			\
 	__rem;								\
- })
+ })									\
 
 //获得字段转化为整数，例如%12d中的字母12提出来变成整型12.
 static int skip_atoi(const char **s)//二级指针，存进来的是字符串的地址
