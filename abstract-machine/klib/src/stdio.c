@@ -374,6 +374,53 @@ int vsprintf(char *buf, const char *fmt, va_list args){
 	return str-buf;
 }
 
+int sprintf(char *out, const char *fmt, ...) {
+  // panic("Not implemented");
+  va_list ap;
+  //char *buff = out;
+  int n = 0;
+  va_start(ap, fmt);
+  n = vsprintf(out,fmt,ap);
+  //printf("n:%d",n);
+  va_end(ap);
+  return n;
+  /*
+  for(; *fmt!='\0'; fmt++){
+      if(*fmt != '%'){
+	  *buff = *fmt;
+	   buff ++;
+	   len++;
+      }
+      else{
+	fmt ++;
+	switch(*fmt){
+	  case 's':
+		char *s = va_arg(ap, char *);
+		if(s==NULL) s="<NULL>";
+		strcmp(buff, s);
+		len += strlen(s);
+		buff ++; 
+		break;
+	  case 'd':
+		int d = va_arg(ap, int);
+		len += str_num(d, buff); 
+		buff ++;
+		break;
+	  case 'c':
+		char c = va_arg(ap, int);
+		*buff = c;
+		len ++;
+		buff ++;
+		break;
+	} // switch
+      } // else
+  } // for
+  *buff = '\0';
+  va_end(ap);
+  return len;
+  */
+}
+
 int snprintf(char *out, size_t n, const char *fmt, ...) {
   panic("Not implemented");
 }
