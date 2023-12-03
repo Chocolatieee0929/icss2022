@@ -20,7 +20,7 @@
 #include <cpu/decode.h>
 
 #define FUNCNAME_SIZE 32 
-#define Func_num 128 
+#define Func_num 256 
 #define func_c 1
 #define func_r 0
 
