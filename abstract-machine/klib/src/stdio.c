@@ -183,12 +183,11 @@ int vsprintf(char *buf, const char *fmt, va_list args){
 	
 	int field_width;	/* 输出字段的宽度 */
 	//精度；用在浮点数时表示输出小数点后几位；用在字符串时表示输出字符个数 
-    int precision;		
+        int precision;		
 	int qualifier;		/* 'h', 'l', or 'L' for integer fields */
 	                        /* 'z' support added 23/7/1999 S.H.    */
 				/* 'z' changed to 'Z' --davidm 1/25/99 */
-    
-    
+
 	/*将字符逐个放到输出缓冲区中，直到遇到第一个%*/
 	for (str=buf ; *fmt ; ++fmt) {
 		if (*fmt != '%') {    //寻找%
