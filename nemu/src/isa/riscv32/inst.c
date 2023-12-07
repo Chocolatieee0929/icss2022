@@ -66,12 +66,35 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_R: src1R(); src2R();         break;
     case TYPE_B: 
 		 src1R();
-		// if(rs2 != 0)
-		 src2R(); 
+		 if(rs2 != 0)	 src2R(); 
 		 // debug
 		 //Log(ANSI_FG_CYAN "src1:%#x  src2:%#x\n" ANSI_NONE, *src1,*src2);
 		 immB(); break;
   }
+}
+
+void csrrwrs(word_t rd, word_t src1, word_t imm, bool tt){
+  word_t t, *ptr = &R(0);
+  if ( imm == 773 ) {
+	 // ptr = &cpu.mtvec;
+  }
+  else if ( imm == 768 ) {
+	 //  ptr = &cpu.mstatus;
+  }
+  else if ( imm == 833 ) {
+	  ptr = &cpu.pc;
+  }
+  else if ( imm == 834 ) {
+	  // ptr = &cpu.mcause;
+  }
+  t = *ptr;
+  if ( tt ) {
+	  *ptr = src1;
+  } 
+  else {
+	  *ptr = t | src1;
+  }
+  R(rd) = t;
 }
 
 // 译码(instruction decode, ID)
@@ -95,7 +118,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("000000? ????? ????? 101 ????? 00100 11", srli   , I, R(rd) = src1 >> (imm & 0x1f));
   INSTPAT("000000? ????? ????? 001 ????? 00100 11", slli   , I, R(rd) = src1 << BITS(imm, 5, 0)); 
   // wrong!!!
-  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, R(rd)=R(imm);R(imm)=(R(imm)|src1)); 
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, csrrwrs(rd, src1, imm, true)); 
   INSTPAT("??????? ????? ????? 011 ????? 00100 11", sltiu  , I, R(rd) = src1 < imm );
   INSTPAT("??????? ????? ????? 000 ????? 00000 11", lb     , I, R(rd) = SEXT(Mr(src1 + imm, 1), 8));
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, R(rd) = Mr(src1 + imm, 1));
