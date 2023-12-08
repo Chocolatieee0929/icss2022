@@ -216,7 +216,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 	}
 	rewind(fp);
 	Func[index].func_name[0] = '\0';
-	printf("index:%ld\n",index);
+	//printf("index:%ld\n",index);
 	return 0;
 }
 
@@ -293,7 +293,7 @@ void init_elf(const char *elf_file) {
 
   // read the funcinfo from this EHdr;
   read_elf_func(Ehdr, fp);
-  
+  printf("read_elf end.\n");
   rewind(fp);
   fclose(fp);
 }
