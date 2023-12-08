@@ -20,6 +20,26 @@
 
 #define IO_SPACE_MAX (2 * 1024 * 1024)
 
+#ifdef CONFIG_DTRACE_COND
+#define DTRACE_SIZE 64
+static char dtrace[DTRACE_SIZE];
+static const char dtrace_type[2][3] = {"Dw","Dr"};
+#endif
+#ifdef CONFIG_DTRACE
+static void device_trace(paddr_t addr, IOMap *map, int flag){
+  strncpy(dtrace, dtrace_type[flag], 2);
+  memset(dtrace + 2, ' ', 4);
+  char *p = dtrace + 6;
+  p += snprintf(p, sizeof(dtrace)-6, "%s   ", map->name);
+  p += snprintf(p, sizeof(dtrace)-6, FMT_WORD "    ", addr);
+  *p = '\0';
+#ifdef CONFIG_MTRACE_COND
+  log_write("%s\n", dtrace);
+#endif
+  puts(dtrace);
+}
+#endif
+
 static uint8_t *io_space = NULL;
 static uint8_t *p_space = NULL;
 
@@ -56,6 +76,9 @@ void init_map() {
 word_t map_read(paddr_t addr, int len, IOMap *map) {
   assert(len >= 1 && len <= 8);
   check_bound(map, addr);
+#ifdef CONFIG_DTRACE
+  device_trace(addr, map, 1);
+#endif
   paddr_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
   word_t ret = host_read(map->space + offset, len);
@@ -66,6 +89,9 @@ void map_write(paddr_t addr, int len, word_t data, IOMap *map) {
   assert(len >= 1 && len <= 8);
   //printf("map_write\n");
   check_bound(map, addr);
+#ifdef CONFIG_DTRACE
+  device_trace(addr, map, 0);
+#endif
   paddr_t offset = addr - map->low;
   host_write(map->space + offset, len, data);
   invoke_callback(map->callback, offset, len, true);
