@@ -34,7 +34,9 @@ static void device_trace(paddr_t addr, IOMap *map, int flag){
   p += snprintf(p, sizeof(dtrace)-6, FMT_WORD "    ", addr);
   *p = '\0';
 #ifdef CONFIG_DTRACE_COND
-  log_write("%s\n", dtrace);
+  Log("%s\n", dtrace);
+  //Log("Add mmio map '%s' at [" FMT_PADDR ", " FMT_PADDR "]",		        maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
+  
 #endif
   puts(dtrace);
 }
