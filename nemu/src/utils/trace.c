@@ -248,7 +248,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 		symnum = read_elf_symtab(elf_symtab, secEnt, fp);
 		// debug
 		//printf("test:%x\n",elf_symtab[0].st_value);
-		//printf("symnum:%lx\n",symnum);
+		printf("symnum:%lx\n",symnum);
 		assert(symnum);
 	}
 	if(secEnt.sh_type == SHT_STRTAB && i!=Ehdr.e_shstrndx){
