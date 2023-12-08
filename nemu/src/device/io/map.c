@@ -33,7 +33,7 @@ static void device_trace(paddr_t addr, IOMap *map, int flag){
   p += snprintf(p, sizeof(dtrace)-6, "%s   ", map->name);
   p += snprintf(p, sizeof(dtrace)-6, FMT_WORD "    ", addr);
   *p = '\0';
-#ifdef CONFIG_MTRACE_COND
+#ifdef CONFIG_DTRACE_COND
   log_write("%s\n", dtrace);
 #endif
   puts(dtrace);
