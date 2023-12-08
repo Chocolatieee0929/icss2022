@@ -20,7 +20,7 @@
 #include <cpu/decode.h>
 
 #define FUNCNAME_SIZE 32 
-#define Func_num 128
+#define Func_num 256
 #define func_c 1
 #define func_r 0
 
@@ -116,12 +116,12 @@ void func_trace(Decode *s,paddr_t target){
 	}
 	temp->func_type = func_r;
 	// debug	
-	printf(" ret [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+	log_write(" ret [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
   }
   else {
 	temp->func_type = func_c;
 	// debug
-	 printf(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
+	 log_write(" call [%s@0x%x]\n",Func[to].func_name, Func[to].func_start);
   }
   temp->next = NULL;
   fend->next=temp; fend = temp; 
