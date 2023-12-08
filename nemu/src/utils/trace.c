@@ -216,6 +216,7 @@ int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FIL
 	}
 	rewind(fp);
 	Func[index].func_name[0] = '\0';
+	printf("index:%ld\n",index);
 	return 0;
 }
 
