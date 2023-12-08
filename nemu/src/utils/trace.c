@@ -187,6 +187,7 @@ int read_elf_symtab(Elf32_Sym *elf_symtab, Elf32_Shdr sec_sym, FILE *fp) {
 // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
 int Convert_FuncInfo(Elf32_Sym *elf_symtab, int symnum, Elf32_Shdr elfstrtab,FILE * fp){
 	size_t index = 0;
+	printf("symnum: %d\n",symnum);
 	// Elf32_Sym * st = elf_symtab;
 	for(; index < symnum; index++){
 		// dedbug
