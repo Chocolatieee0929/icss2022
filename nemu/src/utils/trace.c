@@ -227,7 +227,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
 
   // read the section headers
   Elf32_Shdr elf_shstrtab;
-  Elf32_Sym elf_symtab[50];
+  Elf32_Sym elf_symtab[100];
   size_t symnum = 0;
   Elf32_Shdr elf_strtab;
   
@@ -261,7 +261,7 @@ void read_elf_func(Elf32_Ehdr Ehdr, FILE *fp){
   
   // 从符号表中type为FUNC类型将其转换成我们定义的结构体，函数名需要根据字符串表进行读取
   assert(Convert_FuncInfo(elf_symtab, symnum, elf_strtab, fp)==0);
-  printf("Convert_FuncInfo end.\n");
+  //printf("Convert_FuncInfo end.\n");
   // free(elf_symtab);
   // rewind(fp);
   // fclose(fp);
